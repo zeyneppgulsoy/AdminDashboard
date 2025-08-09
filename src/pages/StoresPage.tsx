@@ -14,12 +14,12 @@ export default function StoresPage() {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Mağaza Yönetimi</h1>
-          <p className="text-muted-foreground">Tüm mağazaları görüntüle ve yönet</p>
+          <h1 className="text-3xl font-bold mb-2">Store Management</h1>
+          <p className="text-muted-foreground">View and manage all stores</p>
         </div>
         <Button>
           <Plus className="h-4 w-4 mr-2" />
-          Yeni Mağaza
+          New Store
         </Button>
       </div>
 
@@ -29,30 +29,30 @@ export default function StoresPage() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Mağaza ara..."
+            placeholder="Search stores..."
             className="w-full pl-10 pr-4 py-2 border rounded-lg bg-background"
           />
         </div>
         <Button variant="outline">
           <Filter className="h-4 w-4 mr-2" />
-          Filtrele
+          Filter
         </Button>
       </div>
 
       {/* Stores Table */}
       <div className="border rounded-lg bg-card">
         <div className="p-4 border-b">
-          <h2 className="text-lg font-semibold">Mağaza Listesi</h2>
+          <h2 className="text-lg font-semibold">Store List</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="border-b">
               <tr>
-                <th className="text-left p-4 font-medium">Mağaza</th>
-                <th className="text-left p-4 font-medium">Sahip</th>
-                <th className="text-left p-4 font-medium">E-posta</th>
-                <th className="text-left p-4 font-medium">Durum</th>
-                <th className="text-left p-4 font-medium">İşlemler</th>
+                <th className="text-left p-4 font-medium">Store</th>
+                <th className="text-left p-4 font-medium">Owner</th>
+                <th className="text-left p-4 font-medium">Email</th>
+                <th className="text-left p-4 font-medium">Status</th>
+                <th className="text-left p-4 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -72,13 +72,13 @@ export default function StoresPage() {
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                         : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                     }`}>
-                      {store.status === 'active' ? 'Aktif' : 'Pasif'}
+                      {store.status === 'active' ? 'Active' : 'Inactive'}
                     </span>
                   </td>
                   <td className="p-4">
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">Düzenle</Button>
-                      <Button size="sm" variant="destructive">Sil</Button>
+                      <Button size="sm" variant="outline">Edit</Button>
+                      <Button size="sm" variant="destructive">Delete</Button>
                     </div>
                   </td>
                 </tr>
