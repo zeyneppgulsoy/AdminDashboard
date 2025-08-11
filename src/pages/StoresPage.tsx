@@ -7,6 +7,7 @@ import { useStore } from '@/store/useStore'
 export default function StoresPage() {
   const { stores: storeUsers, storesLoading, fetchStores, deleteStore } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
+  const [expandedStore, setExpandedStore] = useState<number | null>(null)
 
   // Remove auto-fetch to prevent automatic loading
   // useEffect(() => {
@@ -288,7 +289,7 @@ export default function StoresPage() {
                     </div>
                   </div>
 
-                  {/* Owner Info */}
+                  {/* Basic Info */}
                   <div className="space-y-3 mb-4">
                     <div>
                       <p className="text-sm text-muted-foreground">Owner</p>
@@ -304,28 +305,44 @@ export default function StoresPage() {
                         <p className="text-sm text-muted-foreground">📞 {store.phone}</p>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Business Info */}
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">Department</p>
-                      <p className="text-sm font-medium">{store.department}</p>
-                    </div>
+                  {/* Expanded Details */}
+                  {expandedStore === store.id && (
+                    <div className="space-y-3 mb-4 pt-3 border-t">
+                      {/* Department */}
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Department</p>
+                        <p className="text-sm font-medium">{store.department}</p>
+                      </div>
 
-                    {/* Location */}
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">Location</p>
-                      <div className="flex items-start gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                        <span className="text-sm">{store.address}</span>
+                      {/* Location */}
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Location</p>
+                        <div className="flex items-start gap-2">
+                          <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{store.address}</span>
+                        </div>
+                      </div>
+
+                      {/* Company Address */}
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Company Address</p>
+                        <p className="text-sm">{store.companyAddress}</p>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Actions */}
                   <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setExpandedStore(expandedStore === store.id ? null : store.id)}
+                    >
                       <Eye className="h-3 w-3 mr-1" />
-                      View
+                      {expandedStore === store.id ? 'Hide' : 'View'}
                     </Button>
                     <Button 
                       size="sm" 

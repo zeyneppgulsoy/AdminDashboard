@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { User, Plus, Search, Filter, Mail, MapPin } from 'lucide-react'
+import { User, Plus, Search, Filter, Mail, MapPin, Trash2 } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function UsersPage() {
@@ -195,17 +195,13 @@ export default function UsersPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1">
-                      Edit
-                    </Button>
+                  <div className="flex justify-end">
                     <Button 
                       size="sm" 
                       variant="destructive"
                       onClick={() => deleteUser(user.id)}
-                      className="flex-1"
                     >
-                      Delete
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
