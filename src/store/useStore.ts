@@ -46,11 +46,6 @@ interface StoreState {
   deleteStore: (id: number) => Promise<void>
   deleteProduct: (id: number) => Promise<void>
   
-  // Debug actions
-  clearAllData: () => void
-  clearUsers: () => void
-  clearStores: () => void
-  
   // Analytics (derived data)
   getAnalytics: () => {
     totalUsers: number
@@ -76,11 +71,9 @@ export const useStore = create<StoreState>((set, get) => ({
   
   // Fetch Users
   fetchUsers: async () => {
-    console.log('🔵 fetchUsers called')
     set({ usersLoading: true })
     try {
       const users = await api.getUsers()
-      console.log('🔵 fetchUsers success, setting users:', users.length, 'items')
       set({ users, usersLoading: false })
     } catch (error) {
       console.error('Error fetching users:', error)
@@ -90,11 +83,9 @@ export const useStore = create<StoreState>((set, get) => ({
 
   // Fetch Stores (separate data array)
   fetchStores: async () => {
-    console.log('🟢 fetchStores called')
     set({ storesLoading: true })
     try {
       const users = await api.getUsers()
-      console.log('🟢 fetchStores success, setting stores:', users.length, 'items')
       set({ stores: users, storesLoading: false })
     } catch (error) {
       console.error('Error fetching stores:', error)
@@ -165,29 +156,6 @@ export const useStore = create<StoreState>((set, get) => ({
     } catch (error) {
       console.error('Error deleting product:', error)
     }
-  },
-  
-  // Debug actions
-  clearAllData: () => {
-    set({ 
-      users: [], 
-      stores: [], 
-      products: [], 
-      carts: [], 
-      categories: [],
-      usersLoading: false,
-      storesLoading: false,
-      productsLoading: false,
-      isLoading: false
-    })
-  },
-
-  clearUsers: () => {
-    set({ users: [], usersLoading: false })
-  },
-
-  clearStores: () => {
-    set({ stores: [], storesLoading: false })
   },
 
   // Analytics calculations

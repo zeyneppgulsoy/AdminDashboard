@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Package, Search } from 'lucide-react'
@@ -8,12 +8,10 @@ export default function ProductsPage() {
   const { products, productsLoading, fetchProducts } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
-  useEffect(() => {
-    console.log('ProductsPage mounted')
-    fetchProducts()
-  }, [fetchProducts])
-
-  console.log('ProductsPage render - products:', products.length, 'loading:', productsLoading)
+  // Remove auto-fetch to prevent automatic loading
+  // useEffect(() => {
+  //   fetchProducts()
+  // }, [fetchProducts])
 
   // Filter products
   const filteredProducts = products.filter(product =>
@@ -23,15 +21,34 @@ export default function ProductsPage() {
   if (products.length === 0 && !productsLoading) {
     return (
       <div className="p-6">
-        <div className="text-center py-12">
-          <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No Products Found</h3>
-          <p className="text-muted-foreground mb-6">Get started by loading products from the API.</p>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Products Management</h1>
+            <p className="text-muted-foreground">Click "Load Products" to fetch product data</p>
+          </div>
           <Button onClick={fetchProducts} className="gap-2">
             <Package className="h-4 w-4" />
             Load Products
           </Button>
         </div>
+
+        {/* Empty state */}
+        <Card>
+          <CardContent className="p-12">
+            <div className="text-center">
+              <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No Products Loaded</h3>
+              <p className="text-muted-foreground mb-4">
+                Click the "Load Products" button above to fetch product data from the API.
+              </p>
+              <Button onClick={fetchProducts} className="gap-2">
+                <Package className="h-4 w-4" />
+                Load Products
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }

@@ -5,7 +5,7 @@ import { Store, Plus, Search, Filter, MapPin, Trash2, Edit, Eye, Building2 } fro
 import { useStore } from '@/store/useStore'
 
 export default function StoresPage() {
-  const { stores: storeUsers, storesLoading, fetchStores, deleteStore, clearStores, clearAllData } = useStore()
+  const { stores: storeUsers, storesLoading, fetchStores, deleteStore } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
   // Remove auto-fetch to prevent automatic loading
@@ -13,10 +13,7 @@ export default function StoresPage() {
   //   fetchStores()
   // }, [fetchStores])
 
-  // Debug logging
-  console.log('🟢 StoresPage render - storeUsers length:', storeUsers.length)
-  console.log('🟢 StoresPage render - storesLoading:', storesLoading)
-  console.log('🟢 StoresPage render - stores array:', storeUsers)
+
 
   // Handle delete store
   const handleDeleteStore = async (id: number) => {
@@ -164,12 +161,6 @@ export default function StoresPage() {
                   <div className="flex gap-2">
             <Button onClick={fetchStores} variant="outline" disabled={storesLoading}>
               {storesLoading ? 'Loading...' : 'Reload Stores'}
-            </Button>
-            <Button onClick={clearStores} variant="outline" size="sm">
-              Clear Stores
-            </Button>
-            <Button onClick={clearAllData} variant="destructive" size="sm">
-              Clear All
             </Button>
             <Button>
               <Plus className="h-4 w-4 mr-2" />

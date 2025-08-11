@@ -5,7 +5,7 @@ import { User, Plus, Search, Filter, Mail, MapPin } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function UsersPage() {
-  const { users, usersLoading, fetchUsers, deleteUser, clearUsers, clearAllData } = useStore()
+  const { users, usersLoading, fetchUsers, deleteUser } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
   // Remove auto-fetch to prevent automatic loading
@@ -13,9 +13,7 @@ export default function UsersPage() {
   //   fetchUsers()
   // }, [fetchUsers])
 
-  // Debug logging
-  console.log('🔵 UsersPage render - users length:', users.length)
-  console.log('🔵 UsersPage render - usersLoading:', usersLoading)
+
 
   // Filter users based on search query
   const filteredUsers = users.filter(user =>
@@ -126,12 +124,6 @@ export default function UsersPage() {
                   <div className="flex gap-2">
             <Button onClick={fetchUsers} variant="outline" disabled={usersLoading}>
               {usersLoading ? 'Loading...' : 'Reload Users'}
-            </Button>
-            <Button onClick={clearUsers} variant="outline" size="sm">
-              Clear Users
-            </Button>
-            <Button onClick={clearAllData} variant="destructive" size="sm">
-              Clear All
             </Button>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
