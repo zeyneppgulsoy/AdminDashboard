@@ -1,39 +1,26 @@
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { User, Plus, Search, Filter, Mail, MapPin } from 'lucide-react'
 
 export default function UsersPage() {
-  // Fake Store API'den gelen users verisi
+  // Simple test data
   const users = [
-    { 
-      id: 1, 
-      name: "John Doe", 
-      email: "john.doe@example.com", 
-      phone: "+90 555 123 4567",
-      city: "Istanbul",
-      totalOrders: 8,
-      totalSpent: 2340,
-      status: "active"
+    {
+      id: 1,
+      name: { firstname: "John", lastname: "Doe" },
+      email: "john@example.com",
+      username: "johnd",
+      phone: "1-570-236-7033",
+      address: { city: "New York" }
     },
-    { 
-      id: 2, 
-      name: "Jane Smith", 
-      email: "jane.smith@example.com", 
-      phone: "+90 555 987 6543",
-      city: "Ankara",
-      totalOrders: 15,
-      totalSpent: 5670,
-      status: "active"
-    },
-    { 
-      id: 3, 
-      name: "Bob Wilson", 
-      email: "bob.wilson@example.com", 
-      phone: "+90 555 456 7890",
-      city: "Izmir",
-      totalOrders: 3,
-      totalSpent: 890,
-      status: "inactive"
-    },
+    {
+      id: 2,
+      name: { firstname: "Jane", lastname: "Smith" },
+      email: "jane@example.com", 
+      username: "janes",
+      phone: "1-570-236-7034",
+      address: { city: "Los Angeles" }
+    }
   ]
 
   return (
@@ -67,77 +54,65 @@ export default function UsersPage() {
       </div>
 
       {/* Users Table */}
-      <div className="border rounded-lg bg-card">
-        <div className="p-4 border-b">
-          <h2 className="text-lg font-semibold">User List</h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="border-b">
-              <tr>
-                <th className="text-left p-4 font-medium">User</th>
-                <th className="text-left p-4 font-medium">Contact</th>
-                <th className="text-left p-4 font-medium">Location</th>
-                <th className="text-left p-4 font-medium">Orders</th>
-                <th className="text-left p-4 font-medium">Spent</th>
-                <th className="text-left p-4 font-medium">Status</th>
-                <th className="text-left p-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-b hover:bg-muted/50">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <User className="h-5 w-5 text-purple-600" />
-                      <div>
-                        <p className="font-medium">{user.name}</p>
-                        <p className="text-sm text-muted-foreground">ID: {user.id}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-sm">
-                        <Mail className="h-3 w-3" />
-                        {user.email}
-                      </div>
-                      <div className="text-sm text-muted-foreground">{user.phone}</div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      {user.city}
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <span className="font-medium">{user.totalOrders}</span>
-                  </td>
-                  <td className="p-4">
-                    <span className="font-medium">₺{user.totalSpent.toLocaleString()}</span>
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      user.status === 'active' 
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                    }`}>
-                      {user.status === 'active' ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">Edit</Button>
-                      <Button size="sm" variant="destructive">Delete</Button>
-                    </div>
-                  </td>
+      <Card>
+        <CardHeader>
+          <CardTitle>User List</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="border-b">
+                <tr>
+                  <th className="text-left p-4 font-medium">User</th>
+                  <th className="text-left p-4 font-medium">Contact</th>
+                  <th className="text-left p-4 font-medium">Location</th>
+                  <th className="text-left p-4 font-medium">Username</th>
+                  <th className="text-left p-4 font-medium">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id} className="border-b hover:bg-muted/50">
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <User className="h-5 w-5 text-purple-600" />
+                        <div>
+                          <p className="font-medium">{user.name.firstname} {user.name.lastname}</p>
+                          <p className="text-sm text-muted-foreground">ID: {user.id}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2 text-sm">
+                          <Mail className="h-3 w-3" />
+                          {user.email}
+                        </div>
+                        <div className="text-sm text-muted-foreground">{user.phone}</div>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        {user.address.city}
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="font-medium">@{user.username}</span>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline">Edit</Button>
+                        <Button size="sm" variant="destructive">Delete</Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

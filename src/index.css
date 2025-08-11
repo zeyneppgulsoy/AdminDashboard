@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global reset - Remove all default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Scroll behavior improvements */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent auto-scroll restoration */
+html, body {
+  overflow-x: hidden;
+  scroll-restoration: manual;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Root container - remove any default spacing */
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
