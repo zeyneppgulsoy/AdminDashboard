@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ShoppingCart, Search, Filter, Eye, Package, Truck, CheckCircle, Clock, Calendar, User, DollarSign } from 'lucide-react'
+import { ShoppingCart, Search, Filter, Eye, Package, Truck, CheckCircle, Clock, User, DollarSign } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 // Helper function to get status info
@@ -13,7 +13,7 @@ const getStatusInfo = (total: number) => {
 }
 
 export default function OrdersPage() {
-  const { carts, users, products, fetchCarts, fetchProducts } = useStore()
+  const { carts, users, fetchCarts } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [loading, setLoading] = useState(false)
@@ -26,10 +26,7 @@ export default function OrdersPage() {
   const loadAllData = async () => {
     setLoading(true)
     try {
-      await Promise.all([
-        fetchCarts(),
-        fetchProducts()
-      ])
+      await fetchCarts()
     } finally {
       setLoading(false)
     }
@@ -39,8 +36,8 @@ export default function OrdersPage() {
   const enrichedOrders = carts.map(cart => {
     const user = users.find(u => u.id === cart.userId)
     const total = cart.products.reduce((sum, item) => {
-      const product = products.find(p => p.id === item.id)
-      return sum + ((product?.price || 0) * item.quantity)
+      // Use cart item's own price data
+      return sum + (item.price * item.quantity)
     }, 0)
     
     const statusInfo = getStatusInfo(total)
@@ -253,25 +250,21 @@ export default function OrdersPage() {
                         <ShoppingCart className="h-6 w-6 text-gray-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg mb-1">Order #{order.id}</h3>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <User className="h-4 w-4" />
-                            {order.user ? `${order.user.firstName} ${order.user.lastName}` : `Customer #${order.userId}`}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            {new Date().toLocaleDateString()}
-                          </div>
+                        <h3 className="font-semibold text-lg mb-1">Order {order.id}</h3>
+                        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300">
+                          {order.user && (
+                            <div className="flex items-center gap-1">
+                              <User className="h-4 w-4" />
+                              {`${order.user.firstName} ${order.user.lastName}`}
+                            </div>
+                          )}
                           <div className="flex items-center gap-1">
                             <Package className="h-4 w-4" />
                             {order.itemCount} items
                           </div>
                         </div>
-                        {order.user ? (
-                          <p className="text-sm text-muted-foreground mt-1">{order.user.email}</p>
-                        ) : (
-                          <p className="text-sm text-muted-foreground mt-1">User ID: {order.userId}</p>
+                        {order.user && (
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{order.user.email}</p>
                         )}
                       </div>
                     </div>
@@ -290,24 +283,17 @@ export default function OrdersPage() {
                     <p className="text-sm font-medium mb-3">Items in this order:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                       {order.products.slice(0, 3).map((item) => {
-                        const product = products.find(p => p.id === item.id)
                         return (
-                          <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                            {product && (
-                              <>
-                                <img
-                                  src={product.thumbnail}
-                                  alt={product.title}
-                                  className="w-12 h-12 object-cover rounded"
-                                />
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium truncate">{product.title}</p>
-                                  <p className="text-xs text-muted-foreground">
-                                    Qty: {item.quantity} × ${product.price}
-                                  </p>
-                                </div>
-                              </>
-                            )}
+                          <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
+                              <Package className="h-6 w-6 text-gray-500" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">Product #{item.id}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                Qty: {item.quantity} × ${item.price.toFixed(2)}
+                              </p>
+                            </div>
                           </div>
                         )
                       })}
