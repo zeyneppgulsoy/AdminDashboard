@@ -356,7 +356,7 @@ Weight: ${user.weight}kg`);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background m-0 p-0">
+    <div className="min-h-screen bg-background m-0 p-0 overflow-hidden">
       {/* Mobile menu overlay */}
       {sidebarOpen && (
         <div 
@@ -366,11 +366,11 @@ Weight: ${user.weight}kg`);
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 top-0 z-50 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+      <div className={`fixed inset-y-0 left-0 top-0 z-50 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="flex items-center justify-between h-16 px-6 border-b">
-          <h1 className="text-xl font-bold">Admin Panel</h1>
+        <div className="flex items-center justify-between h-12 px-6 border-b">
+          <h1 className="text-lg font-bold">Admin Panel</h1>
           <Button
             variant="ghost"
             size="icon"
@@ -381,7 +381,7 @@ Weight: ${user.weight}kg`);
           </Button>
         </div>
         
-        <nav className="mt-6 px-3">
+        <nav className="mt-4 px-4">
           {navigation.map((item) => {
             const Icon = item.icon
             const isActive = location.pathname === item.href
@@ -405,9 +405,9 @@ Weight: ${user.weight}kg`);
       </div>
 
       {/* Main content */}
-      <div className="lg:ml-64 m-0 p-0">
+      <div className="lg:ml-64 m-0 p-0 min-h-screen relative">
         {/* Top bar */}
-        <div className="flex items-center justify-between h-16 px-6 border-b bg-card">
+        <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between h-12 px-6 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
             <Button
               variant="ghost"
@@ -417,18 +417,19 @@ Weight: ${user.weight}kg`);
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-lg font-bold text-gray-800">
               {location.pathname === '/' && 'E-Commerce Dashboard'}
               {location.pathname === '/stores' && 'Store Management'}
               {location.pathname === '/users' && 'User Management'}
             </h1>
           </div>
           
-          <div className="flex items-center">
+          <div className="flex items-center justify-end flex-shrink-0">
             <Button
               variant="outline"
               size="icon"
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="ml-auto"
             >
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -436,13 +437,13 @@ Weight: ${user.weight}kg`);
         </div>
 
         {/* Page content - No top padding */}
-        <main className="px-6 pb-6 pt-0">
+        <main className="px-6 pt-16 pb-6">
           <ScrollToTop />
           <Routes>
             <Route path="/" element={
               <div>
                 {/* TailAdmin Style Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   <div className="bg-white p-6 rounded-lg shadow-sm border">
                     <div className="flex items-center justify-between">
                       <div>
@@ -629,7 +630,7 @@ Weight: ${user.weight}kg`);
 
                 
                 {/* Store Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">🏪</span>
@@ -660,7 +661,7 @@ Weight: ${user.weight}kg`);
                 </div>
 
                 {/* Search and Filter Bar */}
-                <div className="bg-white rounded-lg shadow-sm border mb-6">
+                <div className="bg-white rounded-lg shadow-sm border mb-8">
                   <div className="p-4 border-b border-gray-200">
                     <div className="flex gap-4">
                       <div className="flex-1">
@@ -740,7 +741,7 @@ Weight: ${user.weight}kg`);
 
                 
                 {/* Search and Filter Bar */}
-                <div className="bg-white rounded-lg shadow-sm border mb-6">
+                <div className="bg-white rounded-lg shadow-sm border mb-8">
                   <div className="p-4 border-b border-gray-200">
                     <div className="flex gap-4">
                       <div className="flex-1">
@@ -792,7 +793,7 @@ Weight: ${user.weight}kg`);
                         }}
                       >
                         📋 Load All Users
-                      </button>
+        </button>
                     </div>
                   </div>
                 </div>
