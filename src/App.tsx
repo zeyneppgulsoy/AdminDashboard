@@ -95,21 +95,21 @@ function App() {
                 onerror="this.src='https://via.placeholder.com/48/f3f4f6/9ca3af?text=${user.firstName[0]}'"
               />
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">
+                <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                   ${user.firstName} ${user.lastName}
                 </p>
-                <p class="text-sm text-gray-500 truncate">${user.email}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">${user.email}</p>
               </div>
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                user.role === 'admin' ? 'bg-red-100 text-red-800' : 
-                user.role === 'moderator' ? 'bg-yellow-100 text-yellow-800' : 
-                'bg-gray-100 text-gray-800'
+                user.role === 'admin' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 
+                user.role === 'moderator' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : 
+                'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
               }">
                 ${user.role || 'user'}
               </span>
             </div>
             
-            <div class="space-y-2 text-sm text-gray-600">
+            <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <div class="flex justify-between">
                 <span>Age:</span>
                 <span class="font-medium">${user.age}</span>
@@ -257,7 +257,7 @@ Weight: ${user.weight}kg`);
               </span>
             </div>
             
-            <div class="space-y-2 text-sm text-gray-600">
+            <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <div class="flex justify-between">
                 <span>Owner:</span>
                 <span class="font-medium">${user.firstName} ${user.lastName}</span>
@@ -417,7 +417,7 @@ Weight: ${user.weight}kg`);
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <h1 className="text-lg font-bold text-gray-800">
+            <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">
               {location.pathname === '/' && 'E-Commerce Dashboard'}
               {location.pathname === '/stores' && 'Store Management'}
               {location.pathname === '/users' && 'User Management'}
@@ -448,7 +448,7 @@ Weight: ${user.weight}kg`);
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Sales</p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$3.456K</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">$3.456K</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 0.43% 
                         </p>
@@ -465,7 +465,7 @@ Weight: ${user.weight}kg`);
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Profit</p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$45.2K</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">$45.2K</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 4.35%
                         </p>
@@ -482,7 +482,7 @@ Weight: ${user.weight}kg`);
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Product</p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">2.450</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">2.450</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 2.59%
                         </p>
@@ -499,7 +499,7 @@ Weight: ${user.weight}kg`);
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Users</p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">3.456</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">3.456</p>
                         <p className="text-xs text-red-500 flex items-center mt-1">
                           ↘ 0.95%
                         </p>
@@ -516,7 +516,7 @@ Weight: ${user.weight}kg`);
                   {/* Revenue Chart */}
                   <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Total Revenue</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Total Revenue</h3>
                       <div className="flex space-x-2">
                         <button className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">Day</button>
                         <button className="text-xs px-2 py-1 text-gray-500 rounded">Week</button>
@@ -569,7 +569,7 @@ Weight: ${user.weight}kg`);
                   {/* Profit Chart */}
                   <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Profit this week</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Profit this week</h3>
                       <div className="flex items-center space-x-2">
                         <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                         <span className="text-xs text-gray-500">Revenue</span>
