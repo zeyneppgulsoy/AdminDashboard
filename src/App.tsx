@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Sun, Moon, Home, Store, Users, Menu, X } from 'lucide-react'
-import { useTheme } from '@/hooks/useTheme'
+import { useTheme } from '@/components/theme-provider'
 import ScrollToTop from '@/components/ScrollToTop'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
