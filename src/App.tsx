@@ -356,7 +356,7 @@ Weight: ${user.weight}kg`);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background m-0 p-0 overflow-hidden">
+    <div className="min-h-screen bg-background dark:bg-gray-950 m-0 p-0 overflow-hidden">
       {/* Mobile menu overlay */}
       {sidebarOpen && (
         <div 
@@ -366,15 +366,15 @@ Weight: ${user.weight}kg`);
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 top-0 z-50 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+      <div className={`fixed inset-y-0 left-0 top-0 z-50 w-64 bg-blue-600 dark:bg-gray-950 shadow-lg dark:shadow-gray-950/50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="flex items-center justify-between h-12 px-6 border-b">
-          <h1 className="text-lg font-bold">Admin Panel</h1>
+        <div className="flex items-center justify-between h-12 px-6 border-b border-blue-500 dark:border-gray-800">
+          <h1 className="text-lg font-bold text-white">Admin Panel</h1>
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-white hover:bg-blue-700 dark:hover:bg-gray-700"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="h-5 w-5" />
@@ -391,8 +391,8 @@ Weight: ${user.weight}kg`);
                 to={item.href}
                 className={`flex items-center gap-3 px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                    ? 'bg-blue-700 dark:bg-gray-800 text-white'
+                    : 'text-blue-100 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-gray-800 hover:text-white'
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
@@ -407,7 +407,7 @@ Weight: ${user.weight}kg`);
       {/* Main content */}
       <div className="lg:ml-64 m-0 p-0 min-h-screen relative">
         {/* Top bar */}
-        <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between h-12 px-6 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-b border-gray-200 dark:border-gray-700">
+        <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between h-12 px-6 bg-card/95 dark:bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 shadow-sm dark:shadow-gray-950/20">
           <div className="flex items-center">
             <Button
               variant="ghost"
@@ -437,18 +437,18 @@ Weight: ${user.weight}kg`);
         </div>
 
         {/* Page content - No top padding */}
-        <main className="px-6 pt-16 pb-6">
+        <main className="px-4 pt-16 pb-4">
           <ScrollToTop />
           <Routes>
             <Route path="/" element={
               <div>
                 {/* TailAdmin Style Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Sales</p>
-                        <p className="text-2xl font-bold text-gray-900">$3.456K</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$3.456K</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 0.43% 
                         </p>
@@ -461,11 +461,11 @@ Weight: ${user.weight}kg`);
                     </div>
                   </div>
 
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Profit</p>
-                        <p className="text-2xl font-bold text-gray-900">$45.2K</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$45.2K</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 4.35%
                         </p>
@@ -478,11 +478,11 @@ Weight: ${user.weight}kg`);
                     </div>
                   </div>
                   
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Product</p>
-                        <p className="text-2xl font-bold text-gray-900">2.450</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">2.450</p>
                         <p className="text-xs text-green-500 flex items-center mt-1">
                           ↗ 2.59%
                         </p>
@@ -495,11 +495,11 @@ Weight: ${user.weight}kg`);
                     </div>
                   </div>
                   
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">Total Users</p>
-                        <p className="text-2xl font-bold text-gray-900">3.456</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">3.456</p>
                         <p className="text-xs text-red-500 flex items-center mt-1">
                           ↘ 0.95%
                         </p>
@@ -512,11 +512,11 @@ Weight: ${user.weight}kg`);
                 </div>
 
                 {/* Charts Section - TailAdmin Style */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {/* Revenue Chart */}
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-gray-800">Total Revenue</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Total Revenue</h3>
                       <div className="flex space-x-2">
                         <button className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">Day</button>
                         <button className="text-xs px-2 py-1 text-gray-500 rounded">Week</button>
@@ -567,9 +567,9 @@ Weight: ${user.weight}kg`);
                   </div>
 
                   {/* Profit Chart */}
-                  <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg dark:shadow-gray-900/20">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-gray-800">Profit this week</h3>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Profit this week</h3>
                       <div className="flex items-center space-x-2">
                         <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                         <span className="text-xs text-gray-500">Revenue</span>
