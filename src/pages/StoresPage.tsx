@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Store, Plus, Search, Filter, MapPin, Trash2, Edit, Eye, Building2 } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function StoresPage() {
-  const { stores: storeUsers, storesLoading, fetchStores, deleteUser, clearStores, clearAllData } = useStore()
+  const { stores: storeUsers, storesLoading, fetchStores, deleteStore, clearStores, clearAllData } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
   // Remove auto-fetch to prevent automatic loading
@@ -16,10 +16,11 @@ export default function StoresPage() {
   // Debug logging
   console.log('🟢 StoresPage render - storeUsers length:', storeUsers.length)
   console.log('🟢 StoresPage render - storesLoading:', storesLoading)
+  console.log('🟢 StoresPage render - stores array:', storeUsers)
 
   // Handle delete store
   const handleDeleteStore = async (id: number) => {
-    await deleteUser(id)
+    await deleteStore(id)
   }
 
   // Filter users that have companies (treating them as store owners)
@@ -248,118 +249,116 @@ export default function StoresPage() {
         </Button>
       </div>
 
-      {/* Stores Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Building2 className="h-5 w-5" />
-            Store List ({filteredStores.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {filteredStores.length === 0 ? (
-            <div className="text-center py-8">
-              <Store className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No stores found matching your search.</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="border-b">
-                  <tr>
-                    <th className="text-left p-4 font-medium">Store</th>
-                    <th className="text-left p-4 font-medium">Owner</th>
-                    <th className="text-left p-4 font-medium">Contact</th>
-                    <th className="text-left p-4 font-medium">Business Info</th>
-                    <th className="text-left p-4 font-medium">Location</th>
-                    <th className="text-left p-4 font-medium">Status</th>
-                    <th className="text-left p-4 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredStores.map((store) => (
-                    <tr key={store.id} className="border-b hover:bg-muted/50 transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative">
-                            <img 
-                              src={store.image} 
-                              alt={store.owner}
-                              className="h-10 w-10 rounded-full object-cover"
-                            />
-                            <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-blue-600 rounded-full flex items-center justify-center">
-                              <Store className="h-2 w-2 text-white" />
-                            </div>
-                          </div>
-                          <div>
-                            <p className="font-medium">{store.name}</p>
-                            <p className="text-sm text-muted-foreground">ID: #{store.id}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <div>
-                          <p className="font-medium">{store.owner}</p>
-                          <p className="text-sm text-muted-foreground">{store.title}</p>
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <div className="space-y-1">
-                          <p className="text-sm">{store.email}</p>
-                          <p className="text-sm text-muted-foreground">{store.phone}</p>
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <div className="space-y-1">
-                          <p className="text-sm font-medium">{store.department}</p>
-                          <p className="text-sm text-muted-foreground">{store.companyAddress}</p>
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-start gap-2">
-                          <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{store.address}</span>
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          store.status === 'premium' 
-                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-                            : store.status === 'active'
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                        }`}>
-                          {store.status === 'premium' ? '★ Premium' : store.status === 'active' ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
-                            <Eye className="h-3 w-3 mr-1" />
-                            View
-                          </Button>
-                          <Button size="sm" variant="outline">
-                            <Edit className="h-3 w-3 mr-1" />
-                            Edit
-                          </Button>
-                          <Button 
-                            size="sm" 
-                            variant="destructive"
-                            onClick={() => handleDeleteStore(store.id)}
-                          >
-                            <Trash2 className="h-3 w-3 mr-1" />
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Stores Cards */}
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <Building2 className="h-5 w-5" />
+          Store List ({filteredStores.length})
+        </h2>
+        {filteredStores.length === 0 ? (
+          <Card>
+            <CardContent className="p-12">
+              <div className="text-center">
+                <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">No stores found matching your search.</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredStores.map((store) => (
+              <Card key={store.id} className="hover:shadow-lg transition-shadow cursor-pointer relative">
+                <CardContent className="p-6">
+                  {/* Status Badge */}
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      store.status === 'premium' 
+                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+                        : store.status === 'active'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                    }`}>
+                      {store.status === 'premium' ? '★ Premium' : store.status === 'active' ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+
+                  {/* Store Header */}
+                  <div className="flex items-center gap-3 mb-4 pr-20">
+                    <div className="relative">
+                      <img 
+                        src={store.image} 
+                        alt={store.owner}
+                        className="h-12 w-12 rounded-full object-cover"
+                      />
+                      <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-blue-600 rounded-full flex items-center justify-center">
+                        <Store className="h-2 w-2 text-white" />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">{store.name}</h3>
+                      <p className="text-sm text-muted-foreground">ID: #{store.id}</p>
+                    </div>
+                  </div>
+
+                  {/* Owner Info */}
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Owner</p>
+                      <p className="font-medium">{store.owner}</p>
+                      <p className="text-sm text-muted-foreground">{store.title}</p>
+                    </div>
+
+                    {/* Contact */}
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Contact</p>
+                      <div className="space-y-1">
+                        <p className="text-sm">{store.email}</p>
+                        <p className="text-sm text-muted-foreground">📞 {store.phone}</p>
+                      </div>
+                    </div>
+
+                    {/* Business Info */}
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Department</p>
+                      <p className="text-sm font-medium">{store.department}</p>
+                    </div>
+
+                    {/* Location */}
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Location</p>
+                      <div className="flex items-start gap-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">{store.address}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1">
+                      <Eye className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
+                    <Button size="sm" variant="outline" className="flex-1">
+                      <Edit className="h-3 w-3 mr-1" />
+                      Edit
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="destructive"
+                      onClick={() => handleDeleteStore(store.id)}
+                      className="flex-1"
+                    >
+                      <Trash2 className="h-3 w-3 mr-1" />
+                      Delete
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

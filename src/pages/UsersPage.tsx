@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { User, Plus, Search, Filter, Mail, MapPin } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
@@ -158,81 +158,73 @@ export default function UsersPage() {
         </Button>
       </div>
 
-      {/* Users Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>User List ({filteredUsers.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {filteredUsers.length === 0 ? (
-            <div className="text-center py-8">
-              <User className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {searchQuery ? 'No users found matching your search.' : 'No users loaded yet.'}
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-              <thead className="border-b">
-                <tr>
-                  <th className="text-left p-4 font-medium">User</th>
-                  <th className="text-left p-4 font-medium">Contact</th>
-                  <th className="text-left p-4 font-medium">Location</th>
-                  <th className="text-left p-4 font-medium">Username</th>
-                  <th className="text-left p-4 font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user.id} className="border-b hover:bg-muted/50">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <User className="h-5 w-5 text-purple-600" />
-                        <div>
-                          <p className="font-medium">{user.firstName} {user.lastName}</p>
-                          <p className="text-sm text-muted-foreground">ID: {user.id}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="h-3 w-3" />
-                          {user.email}
-                        </div>
-                        <div className="text-sm text-muted-foreground">{user.phone}</div>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                        {user.address.city}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className="font-medium">@{user.username}</span>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">Edit</Button>
-                        <Button 
-                          size="sm" 
-                          variant="destructive"
-                          onClick={() => deleteUser(user.id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Users Cards */}
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold mb-4">User List ({filteredUsers.length})</h2>
+        {filteredUsers.length === 0 ? (
+          <Card>
+            <CardContent className="p-12">
+              <div className="text-center">
+                <User className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">
+                  {searchQuery ? 'No users found matching your search.' : 'No users loaded yet.'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredUsers.map((user) => (
+              <Card key={user.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6">
+                  {/* User Avatar & Name */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                      {user.firstName[0]}{user.lastName[0]}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">{user.firstName} {user.lastName}</h3>
+                      <p className="text-sm text-muted-foreground">@{user.username}</p>
+                    </div>
+                  </div>
+
+                  {/* Contact Info */}
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <span className="truncate">{user.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span>{user.address.city}</span>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="text-sm text-muted-foreground mb-4">
+                    📞 {user.phone}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1">
+                      Edit
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="destructive"
+                      onClick={() => deleteUser(user.id)}
+                      className="flex-1"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          )}
-        </CardContent>
-      </Card>
+        )}
+      </div>
     </div>
   )
 }

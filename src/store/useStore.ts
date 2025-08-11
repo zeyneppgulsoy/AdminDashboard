@@ -43,6 +43,7 @@ interface StoreState {
   fetchCarts: () => Promise<void>
   fetchCategories: () => Promise<void>
   deleteUser: (id: number) => Promise<void>
+  deleteStore: (id: number) => Promise<void>
   deleteProduct: (id: number) => Promise<void>
   
   // Debug actions
@@ -133,15 +134,25 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Delete User
+  // Delete User (only from users array)
   deleteUser: async (id: number) => {
     try {
       await api.deleteUser(id)
       const users = get().users.filter(user => user.id !== id)
-      const stores = get().stores.filter(store => store.id !== id)
-      set({ users, stores })
+      set({ users })
     } catch (error) {
       console.error('Error deleting user:', error)
+    }
+  },
+
+  // Delete Store (only from stores array)
+  deleteStore: async (id: number) => {
+    try {
+      await api.deleteUser(id)
+      const stores = get().stores.filter(store => store.id !== id)
+      set({ stores })
+    } catch (error) {
+      console.error('Error deleting store:', error)
     }
   },
   

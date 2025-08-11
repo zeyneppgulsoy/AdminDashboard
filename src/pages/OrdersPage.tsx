@@ -13,21 +13,21 @@ const getStatusInfo = (total: number) => {
 }
 
 export default function OrdersPage() {
-  const { carts, users, products, fetchCarts, fetchUsers, fetchProducts } = useStore()
+  const { carts, users, products, fetchCarts, fetchProducts } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    loadAllData()
-  }, [])
+  // Remove auto-fetch to prevent automatic loading
+  // useEffect(() => {
+  //   loadAllData()
+  // }, [])
 
   const loadAllData = async () => {
     setLoading(true)
     try {
       await Promise.all([
         fetchCarts(),
-        fetchUsers(),
         fetchProducts()
       ])
     } finally {
@@ -58,6 +58,7 @@ export default function OrdersPage() {
   const filteredOrders = enrichedOrders.filter(order => {
     const matchesSearch = 
       order.id.toString().includes(searchQuery) ||
+      order.userId.toString().includes(searchQuery) ||
       order.user?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.user?.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.user?.email?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -70,15 +71,34 @@ export default function OrdersPage() {
   if (carts.length === 0 && !loading) {
     return (
       <div className="p-6">
-        <div className="text-center py-12">
-          <ShoppingCart className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No Orders Found</h3>
-          <p className="text-muted-foreground mb-6">Get started by loading orders from the API.</p>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Orders Management</h1>
+            <p className="text-muted-foreground">Click "Load Orders" to fetch order data</p>
+          </div>
           <Button onClick={loadAllData} className="gap-2">
             <ShoppingCart className="h-4 w-4" />
             Load Orders
           </Button>
         </div>
+
+        {/* Empty state */}
+        <Card>
+          <CardContent className="p-12">
+            <div className="text-center">
+              <ShoppingCart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No Orders Loaded</h3>
+              <p className="text-muted-foreground mb-4">
+                Click the "Load Orders" button above to fetch order data from the API.
+              </p>
+              <Button onClick={loadAllData} className="gap-2">
+                <ShoppingCart className="h-4 w-4" />
+                Load Orders
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -173,7 +193,7 @@ export default function OrdersPage() {
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search orders by ID, customer name, or email..."
+                placeholder="Search orders by ID, customer ID, name, or email..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 pr-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -237,7 +257,7 @@ export default function OrdersPage() {
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <User className="h-4 w-4" />
-                            {order.user ? `${order.user.firstName} ${order.user.lastName}` : 'Unknown Customer'}
+                            {order.user ? `${order.user.firstName} ${order.user.lastName}` : `Customer #${order.userId}`}
                           </div>
                           <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
@@ -248,8 +268,10 @@ export default function OrdersPage() {
                             {order.itemCount} items
                           </div>
                         </div>
-                        {order.user && (
+                        {order.user ? (
                           <p className="text-sm text-muted-foreground mt-1">{order.user.email}</p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground mt-1">User ID: {order.userId}</p>
                         )}
                       </div>
                     </div>
