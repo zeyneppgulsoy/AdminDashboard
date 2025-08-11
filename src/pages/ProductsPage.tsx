@@ -1,0 +1,135 @@
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Package, Search } from 'lucide-react'
+import { useStore } from '@/store/useStore'
+
+export default function ProductsPage() {
+  const { products, productsLoading, fetchProducts } = useStore()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    console.log('ProductsPage mounted')
+    fetchProducts()
+  }, [fetchProducts])
+
+  console.log('ProductsPage render - products:', products.length, 'loading:', productsLoading)
+
+  // Filter products
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  if (products.length === 0 && !productsLoading) {
+    return (
+      <div className="p-6">
+        <div className="text-center py-12">
+          <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No Products Found</h3>
+          <p className="text-muted-foreground mb-6">Get started by loading products from the API.</p>
+          <Button onClick={fetchProducts} className="gap-2">
+            <Package className="h-4 w-4" />
+            Load Products
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="p-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Products Management</h1>
+          <p className="text-muted-foreground">
+            Manage your product inventory ({filteredProducts.length} products)
+          </p>
+        </div>
+        <Button onClick={fetchProducts} disabled={productsLoading}>
+          {productsLoading ? 'Loading...' : 'Reload Products'}
+        </Button>
+      </div>
+
+      {/* Search */}
+      <Card className="mb-6">
+        <CardContent className="p-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Products Grid */}
+      {productsLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Card key={i} className="animate-pulse">
+              <div className="h-48 bg-gray-200 rounded-t-lg"></div>
+              <CardContent className="p-4">
+                <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                <div className="h-3 bg-gray-200 rounded mb-4"></div>
+                <div className="h-4 bg-gray-200 rounded w-20"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : filteredProducts.length === 0 ? (
+        <div className="text-center py-12">
+          <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No products found</h3>
+          <p className="text-muted-foreground">Try adjusting your search criteria.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <Card key={product.id} className="hover:shadow-lg transition-shadow">
+              <div className="relative">
+                <img
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                  loading="lazy"
+                />
+                <div className="absolute top-2 right-2">
+                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                    {product.category}
+                  </span>
+                </div>
+              </div>
+              
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-2 line-clamp-2">{product.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                  {product.description}
+                </p>
+                
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-2xl font-bold text-green-600">
+                    ${product.price}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    Stock: {product.stock}
+                  </span>
+                </div>
+                
+                <div className="text-center">
+                  <Button size="sm" variant="outline" className="w-full">
+                    View Details
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

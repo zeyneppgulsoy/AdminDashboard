@@ -138,7 +138,8 @@ export const useStore = create<StoreState>((set, get) => ({
     try {
       await api.deleteUser(id)
       const users = get().users.filter(user => user.id !== id)
-      set({ users })
+      const stores = get().stores.filter(store => store.id !== id)
+      set({ users, stores })
     } catch (error) {
       console.error('Error deleting user:', error)
     }

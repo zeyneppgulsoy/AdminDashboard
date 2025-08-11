@@ -17,6 +17,11 @@ export default function StoresPage() {
   console.log('🟢 StoresPage render - storeUsers length:', storeUsers.length)
   console.log('🟢 StoresPage render - storesLoading:', storesLoading)
 
+  // Handle delete store
+  const handleDeleteStore = async (id: number) => {
+    await deleteUser(id)
+  }
+
   // Filter users that have companies (treating them as store owners)
   const stores = storeUsers.filter(user => user.company?.name).map(user => ({
     id: user.id,
@@ -38,12 +43,6 @@ export default function StoresPage() {
     store.owner.toLowerCase().includes(searchQuery.toLowerCase()) ||
     store.email.toLowerCase().includes(searchQuery.toLowerCase())
   )
-
-  const handleDeleteStore = async (id: number) => {
-    if (confirm('Are you sure you want to delete this store?')) {
-      await deleteUser(id)
-    }
-  }
 
   if (storesLoading) {
     return (

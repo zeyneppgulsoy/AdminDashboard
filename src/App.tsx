@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Sun, Moon, Home, Store, Users, Menu, X } from 'lucide-react'
+import { Sun, Moon, Home, Store, Users, Package, ShoppingCart, Menu, X } from 'lucide-react'
 import { useTheme } from '@/contexts/theme-provider'
 import ScrollToTop from '@/components/ScrollToTop'
 
@@ -9,6 +9,8 @@ import ScrollToTop from '@/components/ScrollToTop'
 import DashboardPage from '@/pages/DashboardPage'
 import StoresPage from '@/pages/StoresPage'
 import UsersPage from '@/pages/UsersPage'
+import ProductsPage from '@/pages/ProductsPage'
+import OrdersPage from '@/pages/OrdersPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Stores', href: '/stores', icon: Store },
     { name: 'Users', href: '/users', icon: Users },
+    { name: 'Products', href: '/products', icon: Package },
+    { name: 'Orders', href: '/orders', icon: ShoppingCart },
   ]
 
   return (
@@ -169,6 +173,8 @@ function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/stores" element={<StoresPage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
