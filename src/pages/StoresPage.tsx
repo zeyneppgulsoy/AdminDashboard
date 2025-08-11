@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Store, Plus, Search, Filter, MapPin, Trash2, Edit, Eye, Building2 } from 'lucide-react'
+import { Store, Plus, Search, Filter, MapPin, Trash2, Eye, Building2 } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function StoresPage() {
@@ -159,9 +159,6 @@ export default function StoresPage() {
           </p>
         </div>
                   <div className="flex gap-2">
-            <Button onClick={fetchStores} variant="outline" disabled={storesLoading}>
-              {storesLoading ? 'Loading...' : 'Reload Stores'}
-            </Button>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
               New Store
@@ -330,18 +327,13 @@ export default function StoresPage() {
                       <Eye className="h-3 w-3 mr-1" />
                       View
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1">
-                      <Edit className="h-3 w-3 mr-1" />
-                      Edit
-                    </Button>
                     <Button 
                       size="sm" 
                       variant="destructive"
                       onClick={() => handleDeleteStore(store.id)}
                       className="flex-1"
                     >
-                      <Trash2 className="h-3 w-3 mr-1" />
-                      Delete
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>

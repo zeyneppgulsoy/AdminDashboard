@@ -122,9 +122,6 @@ export default function UsersPage() {
           </p>
         </div>
                   <div className="flex gap-2">
-            <Button onClick={fetchUsers} variant="outline" disabled={usersLoading}>
-              {usersLoading ? 'Loading...' : 'Reload Users'}
-            </Button>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
               New User
