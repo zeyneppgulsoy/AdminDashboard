@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Store, Plus, Search, Filter, MapPin, Trash2, Edit, Eye, Building2 } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function StoresPage() {
-  const { users, usersLoading, fetchUsers, deleteUser } = useStore()
+  const { stores: storeUsers, storesLoading, fetchStores, deleteUser, clearStores, clearAllData } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
-  useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
+  // Remove auto-fetch to prevent automatic loading
+  // useEffect(() => {
+  //   fetchStores()
+  // }, [fetchStores])
+
+  // Debug logging
+  console.log('🟢 StoresPage render - storeUsers length:', storeUsers.length)
+  console.log('🟢 StoresPage render - storesLoading:', storesLoading)
 
   // Filter users that have companies (treating them as store owners)
-  const stores = users.filter(user => user.company?.name).map(user => ({
+  const stores = storeUsers.filter(user => user.company?.name).map(user => ({
     id: user.id,
     name: user.company.name,
     owner: `${user.firstName} ${user.lastName}`,
@@ -40,15 +45,108 @@ export default function StoresPage() {
     }
   }
 
-  if (usersLoading) {
+  if (storesLoading) {
     return (
       <div className="p-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        {/* Header - same as normal page to prevent layout shift */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Store Management</h1>
             <p className="text-muted-foreground">Loading stores...</p>
           </div>
+          <Button disabled>
+            <Plus className="h-4 w-4 mr-2" />
+            New Store
+          </Button>
         </div>
+
+        {/* Loading skeleton that maintains grid structure */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          {[...Array(4)].map((_, i) => (
+            <Card key={i}>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 bg-muted rounded animate-pulse"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-16 bg-muted rounded animate-pulse"></div>
+                    <div className="h-6 w-12 bg-muted rounded animate-pulse"></div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Search bar skeleton */}
+        <div className="flex gap-4 mb-6">
+          <div className="flex-1 h-10 bg-muted rounded-lg animate-pulse"></div>
+          <div className="h-10 w-20 bg-muted rounded-lg animate-pulse"></div>
+        </div>
+
+        {/* Table skeleton */}
+        <Card>
+          <CardHeader>
+            <div className="h-6 w-32 bg-muted rounded animate-pulse"></div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 border-b">
+                  <div className="h-10 w-10 bg-muted rounded-full animate-pulse"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-32 bg-muted rounded animate-pulse"></div>
+                    <div className="h-3 w-24 bg-muted rounded animate-pulse"></div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="h-8 w-16 bg-muted rounded animate-pulse"></div>
+                    <div className="h-8 w-16 bg-muted rounded animate-pulse"></div>
+                    <div className="h-8 w-16 bg-muted rounded animate-pulse"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  // Show load button if no stores data
+  if (storeUsers.length === 0 && !storesLoading) {
+    return (
+      <div className="p-6">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Store Management</h1>
+            <p className="text-muted-foreground">Click "Load Stores" to fetch store data</p>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={fetchStores} variant="default">
+              Load Stores
+            </Button>
+            <Button disabled>
+              <Plus className="h-4 w-4 mr-2" />
+              New Store
+            </Button>
+          </div>
+        </div>
+
+        {/* Empty state */}
+        <Card>
+          <CardContent className="p-12">
+            <div className="text-center">
+              <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No Stores Loaded</h3>
+              <p className="text-muted-foreground mb-4">
+                Click the "Load Stores" button above to fetch store data from the API.
+              </p>
+              <Button onClick={fetchStores}>
+                Load Stores
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -63,10 +161,21 @@ export default function StoresPage() {
             View and manage all stores • {filteredStores.length} stores found
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          New Store
-        </Button>
+                  <div className="flex gap-2">
+            <Button onClick={fetchStores} variant="outline" disabled={storesLoading}>
+              {storesLoading ? 'Loading...' : 'Reload Stores'}
+            </Button>
+            <Button onClick={clearStores} variant="outline" size="sm">
+              Clear Stores
+            </Button>
+            <Button onClick={clearAllData} variant="destructive" size="sm">
+              Clear All
+            </Button>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              New Store
+            </Button>
+          </div>
       </div>
 
       {/* Stats Cards */}

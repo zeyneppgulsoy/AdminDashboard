@@ -25,6 +25,7 @@ interface Cart {
 interface StoreState {
   // Data
   users: User[]
+  stores: User[]  // Separate array for stores
   products: Product[]
   carts: Cart[]
   categories: string[]
@@ -32,15 +33,22 @@ interface StoreState {
   // Loading states
   isLoading: boolean
   usersLoading: boolean
+  storesLoading: boolean
   productsLoading: boolean
   
   // Actions
   fetchUsers: () => Promise<void>
+  fetchStores: () => Promise<void>
   fetchProducts: () => Promise<void>
   fetchCarts: () => Promise<void>
   fetchCategories: () => Promise<void>
   deleteUser: (id: number) => Promise<void>
   deleteProduct: (id: number) => Promise<void>
+  
+  // Debug actions
+  clearAllData: () => void
+  clearUsers: () => void
+  clearStores: () => void
   
   // Analytics (derived data)
   getAnalytics: () => {
@@ -55,23 +63,41 @@ interface StoreState {
 export const useStore = create<StoreState>((set, get) => ({
   // Initial state
   users: [],
+  stores: [],
   products: [],
   carts: [],
   categories: [],
   
   isLoading: false,
   usersLoading: false,
+  storesLoading: false,
   productsLoading: false,
   
-  // Fetch Users (as Store Owners)
+  // Fetch Users
   fetchUsers: async () => {
+    console.log('🔵 fetchUsers called')
     set({ usersLoading: true })
     try {
       const users = await api.getUsers()
+      console.log('🔵 fetchUsers success, setting users:', users.length, 'items')
       set({ users, usersLoading: false })
     } catch (error) {
       console.error('Error fetching users:', error)
       set({ usersLoading: false })
+    }
+  },
+
+  // Fetch Stores (separate data array)
+  fetchStores: async () => {
+    console.log('🟢 fetchStores called')
+    set({ storesLoading: true })
+    try {
+      const users = await api.getUsers()
+      console.log('🟢 fetchStores success, setting stores:', users.length, 'items')
+      set({ stores: users, storesLoading: false })
+    } catch (error) {
+      console.error('Error fetching stores:', error)
+      set({ storesLoading: false })
     }
   },
   
@@ -129,6 +155,29 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
+  // Debug actions
+  clearAllData: () => {
+    set({ 
+      users: [], 
+      stores: [], 
+      products: [], 
+      carts: [], 
+      categories: [],
+      usersLoading: false,
+      storesLoading: false,
+      productsLoading: false,
+      isLoading: false
+    })
+  },
+
+  clearUsers: () => {
+    set({ users: [], usersLoading: false })
+  },
+
+  clearStores: () => {
+    set({ stores: [], storesLoading: false })
+  },
+
   // Analytics calculations
   getAnalytics: () => {
     const { users, products, carts } = get()
