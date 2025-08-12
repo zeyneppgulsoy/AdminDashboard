@@ -171,9 +171,9 @@ export default function UsersPage() {
                     <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-semibold">
                       {user.firstName[0]}{user.lastName[0]}
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-lg">{user.firstName} {user.lastName}</h3>
-                      <p className="text-sm text-muted-foreground">@{user.username}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-lg truncate">{user.firstName} {user.lastName}</h3>
+                      <p className="text-sm text-muted-foreground truncate">@{user.username}</p>
                     </div>
                   </div>
 

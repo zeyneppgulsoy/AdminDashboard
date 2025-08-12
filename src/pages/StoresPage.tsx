@@ -135,10 +135,7 @@ export default function StoresPage() {
           <CardContent className="p-12">
             <div className="text-center">
               <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Stores Loaded</h3>
-              <p className="text-muted-foreground mb-4">
-                Click the "Load Stores" button above to fetch store data from the API.
-              </p>
+              <h3 className="text-lg font-semibold mb-4">No Stores Loaded</h3>
               <Button onClick={fetchStores}>
                 Load Stores
               </Button>
@@ -283,8 +280,8 @@ export default function StoresPage() {
                         <Store className="h-2 w-2 text-white" />
                       </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-lg">{store.name}</h3>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-lg truncate">{store.name}</h3>
                       <p className="text-sm text-muted-foreground">ID: #{store.id}</p>
                     </div>
                   </div>
@@ -301,8 +298,8 @@ export default function StoresPage() {
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Contact</p>
                       <div className="space-y-1">
-                        <p className="text-sm">{store.email}</p>
-                        <p className="text-sm text-muted-foreground">📞 {store.phone}</p>
+                        <p className="text-sm truncate">{store.email}</p>
+                        <p className="text-sm text-muted-foreground truncate">📞 {store.phone}</p>
                       </div>
                     </div>
                   </div>
@@ -321,14 +318,14 @@ export default function StoresPage() {
                         <p className="text-sm text-muted-foreground mb-1">Location</p>
                         <div className="flex items-start gap-2">
                           <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{store.address}</span>
+                          <span className="text-sm break-words">{store.address}</span>
                         </div>
                       </div>
 
                       {/* Company Address */}
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">Company Address</p>
-                        <p className="text-sm">{store.companyAddress}</p>
+                        <p className="text-sm break-words">{store.companyAddress}</p>
                       </div>
                     </div>
                   )}
