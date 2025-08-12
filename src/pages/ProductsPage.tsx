@@ -9,9 +9,6 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
 
   // Remove auto-fetch to prevent automatic loading
-  // useEffect(() => {
-  //   fetchProducts()
-  // }, [fetchProducts])
 
   // Filter products
   const filteredProducts = products.filter(product =>
@@ -57,12 +54,18 @@ export default function ProductsPage() {
         <div>
           <h1 className="text-3xl font-bold mb-2">Products Management</h1>
           <p className="text-muted-foreground">
-            Manage your product inventory ({filteredProducts.length} products)
+            {products.length > 0 
+              ? `Manage your product inventory (${filteredProducts.length} products)`
+              : 'Click "Load Products" to fetch product data'
+            }
           </p>
         </div>
-        <Button onClick={fetchProducts} disabled={productsLoading}>
-          {productsLoading ? 'Loading...' : 'Reload Products'}
-        </Button>
+        {products.length === 0 && !productsLoading && (
+          <Button onClick={fetchProducts} className="gap-2">
+            <Package className="h-4 w-4" />
+            Load Products
+          </Button>
+        )}
       </div>
 
       {/* Search */}

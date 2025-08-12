@@ -19,9 +19,6 @@ export default function OrdersPage() {
   const [loading, setLoading] = useState(false)
 
   // Remove auto-fetch to prevent automatic loading
-  // useEffect(() => {
-  //   loadAllData()
-  // }, [])
 
   const loadAllData = async () => {
     setLoading(true)
@@ -104,14 +101,18 @@ export default function OrdersPage() {
         <div>
           <h1 className="text-3xl font-bold mb-2">Orders Management</h1>
           <p className="text-muted-foreground">
-            Track and manage customer orders ({filteredOrders.length} orders)
+            {carts.length > 0 
+              ? `Track and manage customer orders (${filteredOrders.length} orders)`
+              : 'Click "Load Orders" to fetch order data'
+            }
           </p>
         </div>
-        <div className="flex gap-3">
-          <Button onClick={loadAllData} variant="outline" disabled={loading}>
-            {loading ? 'Loading...' : 'Reload Orders'}
+        {carts.length === 0 && !loading && (
+          <Button onClick={loadAllData} className="gap-2">
+            <ShoppingCart className="h-4 w-4" />
+            Load Orders
           </Button>
-        </div>
+        )}
       </div>
 
       {/* Stats Cards */}
