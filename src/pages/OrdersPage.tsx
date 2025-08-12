@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { ShoppingCart, Search, Filter, Eye, Package, Truck, CheckCircle, Clock, User, DollarSign } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 

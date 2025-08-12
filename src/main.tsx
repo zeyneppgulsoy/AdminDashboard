@@ -6,7 +6,7 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
-      <ThemeProvider defaultTheme="light" storageKey="admin-dashboard-theme">
+      <ThemeProvider defaultTheme="light">
         <App />
       </ThemeProvider>
     </BrowserRouter>
