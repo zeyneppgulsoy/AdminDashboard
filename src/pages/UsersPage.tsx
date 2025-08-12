@@ -49,10 +49,7 @@ export default function UsersPage() {
           <CardContent className="p-12">
             <div className="text-center">
               <User className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Users Loaded</h3>
-              <p className="text-muted-foreground mb-4">
-                Click the "Load Users" button above to fetch user data from the API.
-              </p>
+              <h3 className="text-lg font-semibold mb-4">No Users Loaded</h3>
               <Button onClick={fetchUsers}>
                 Load Users
               </Button>

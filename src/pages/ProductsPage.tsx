@@ -38,10 +38,7 @@ export default function ProductsPage() {
           <CardContent className="p-12">
             <div className="text-center">
               <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Products Loaded</h3>
-              <p className="text-muted-foreground mb-4">
-                Click the "Load Products" button above to fetch product data from the API.
-              </p>
+              <h3 className="text-lg font-semibold mb-4">No Products Loaded</h3>
               <Button onClick={fetchProducts} className="gap-2">
                 <Package className="h-4 w-4" />
                 Load Products

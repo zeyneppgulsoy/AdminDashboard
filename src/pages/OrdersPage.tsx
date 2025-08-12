@@ -85,10 +85,7 @@ export default function OrdersPage() {
           <CardContent className="p-12">
             <div className="text-center">
               <ShoppingCart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Orders Loaded</h3>
-              <p className="text-muted-foreground mb-4">
-                Click the "Load Orders" button above to fetch order data from the API.
-              </p>
+              <h3 className="text-lg font-semibold mb-4">No Orders Loaded</h3>
               <Button onClick={loadAllData} className="gap-2">
                 <ShoppingCart className="h-4 w-4" />
                 Load Orders
