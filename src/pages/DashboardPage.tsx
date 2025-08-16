@@ -24,7 +24,7 @@ export default function DashboardPage() {
   // Sales by category data for doughnut chart (API-inspired categories)
   const categoryData = [
     { name: 'Beauty', value: 25, sales: 35800, fill: '#3b82f6' },
-    { name: 'Laptops', value: 22, sales: 28500, fill: '#f97316' },
+    { name: 'Fragrances', value: 22, sales: 28500, fill: '#f97316' },
     { name: 'Smartphones', value: 20, sales: 22200, fill: '#eab308' },
     { name: 'Furniture', value: 18, sales: 18800, fill: '#ec4899' },
     { name: 'Groceries', value: 15, sales: 15200, fill: '#10b981' },

@@ -48,7 +48,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-3 sm:p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -105,40 +105,40 @@ export default function ProductsPage() {
           <p className="text-muted-foreground">Try adjusting your search criteria.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-4 px-2 sm:px-0 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="hover:shadow-lg transition-shadow">
-              <div className="relative">
+            <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden max-w-full">
+              <div className="relative w-full">
                 <img
                   src={product.thumbnail}
                   alt={product.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
+                  className="w-full h-32 sm:h-40 md:h-44 lg:h-48 object-cover object-center"
                   loading="lazy"
                 />
                 <div className="absolute top-2 right-2">
-                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full max-w-20 sm:max-w-none truncate">
                     {product.category}
                   </span>
                 </div>
               </div>
               
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-2 line-clamp-2">{product.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+              <CardContent className="p-2 sm:p-3 md:p-4">
+                <h3 className="font-semibold mb-1 sm:mb-2 text-xs sm:text-sm md:text-base line-clamp-2">{product.title}</h3>
+                <p className="text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2">
                   {product.description}
                 </p>
                 
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-2xl font-bold text-green-600">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold text-green-600">
                     ${product.price}
                   </span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-xs text-muted-foreground">
                     Stock: {product.stock}
                   </span>
                 </div>
                 
                 <div className="text-center">
-                  <Button size="sm" variant="outline" className="w-full">
+                  <Button size="sm" variant="outline" className="w-full text-xs py-1 sm:py-2">
                     View Details
                   </Button>
                 </div>
