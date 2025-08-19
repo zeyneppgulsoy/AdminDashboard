@@ -10,7 +10,15 @@ export default function DashboardPage() {
     totalUsers: 0,
     totalProducts: 0,
     totalOrders: 0,
+    totalRevenue: 0,
     recentCarts: [] as Cart[]
+  })
+  const [chartData, setChartData] = useState<{
+    salesData: Array<{name: string, totalRevenue: number, totalSales: number}>
+    categoryData: Array<{name: string, value: number, sales: number, fill: string}>
+  }>({
+    salesData: [],
+    categoryData: []
   })
   const [loading, setLoading] = useState(true)
 
@@ -18,8 +26,12 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const stats = await api.getDashboardStats()
+        const [stats, charts] = await Promise.all([
+          api.getDashboardStats(),
+          api.getChartData()
+        ])
         setDashboardStats(stats)
+        setChartData(charts)
       } catch (error) {
         console.error('Error fetching dashboard data:', error)
       } finally {
@@ -30,32 +42,7 @@ export default function DashboardPage() {
     fetchDashboardData()
   }, [])
 
-  // E-commerce specific data - Revenue & Sales tracking
-  const salesData = [
-    { name: 'Sep', totalRevenue: 25400, totalSales: 18200 },
-    { name: 'Oct', totalRevenue: 22800, totalSales: 16500 },
-    { name: 'Nov', totalRevenue: 28600, totalSales: 20800 },
-    { name: 'Dec', totalRevenue: 31200, totalSales: 23500 },
-    { name: 'Jan', totalRevenue: 29800, totalSales: 21200 },
-    { name: 'Feb', totalRevenue: 33500, totalSales: 24800 },
-    { name: 'Mar', totalRevenue: 38200, totalSales: 28100 },
-    { name: 'Apr', totalRevenue: 35600, totalSales: 26300 },
-    { name: 'May', totalRevenue: 41800, totalSales: 31500 },
-    { name: 'Jun', totalRevenue: 39200, totalSales: 29800 },
-    { name: 'Jul', totalRevenue: 45200, totalSales: 34200 },
-    { name: 'Aug', totalRevenue: 47800, totalSales: 36500 },
-  ]
 
-
-
-  // Sales by category data for doughnut chart (API-inspired categories)
-  const categoryData = [
-    { name: 'Beauty', value: 25, sales: 35800, fill: '#3b82f6' },
-    { name: 'Fragrances', value: 22, sales: 28500, fill: '#f97316' },
-    { name: 'Smartphones', value: 20, sales: 22200, fill: '#eab308' },
-    { name: 'Furniture', value: 18, sales: 18800, fill: '#ec4899' },
-    { name: 'Groceries', value: 15, sales: 15200, fill: '#10b981' },
-  ]
 
 
 
@@ -64,7 +51,7 @@ export default function DashboardPage() {
 
 
   return (
-    <div className="h-[calc(100vh-80px)] w-full p-3 box-border overflow-hidden flex flex-col">
+    <div className="h-screen w-full p-2 box-border overflow-hidden flex flex-col">
       {/* Simple Test Cards */}
       <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
         <Card>
@@ -120,7 +107,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Revenue</p>
-                <p className="text-2xl font-bold">$125,480</p>
+                <p className="text-2xl font-bold">{loading ? '...' : `$${dashboardStats.totalRevenue.toLocaleString()}`}</p>
                 <p className="text-sm text-green-600">↗ +15%</p>
               </div>
             </div>
@@ -129,9 +116,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 h-[420px]">
         {/* Monthly Performance */}
-        <Card className="flex flex-col min-h-0">
+        <Card className="flex flex-col h-full">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
               <TrendingUp className="h-4 w-4 text-blue-600" />
@@ -151,7 +138,7 @@ export default function DashboardPage() {
           <CardContent className="p-2 flex-1 min-h-0">
             <div className="h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <AreaChart data={chartData.salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="totalRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#7dd3fc" stopOpacity={0.8}/>
@@ -217,7 +204,7 @@ export default function DashboardPage() {
 
 
         {/* Sales by Category - Doughnut Chart */}
-        <Card className="flex flex-col min-h-0">
+        <Card className="flex flex-col h-full">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
               <PieChartIcon className="h-4 w-4 text-purple-600" />
@@ -226,22 +213,22 @@ export default function DashboardPage() {
             <p className="text-xs text-muted-foreground">Product distribution</p>
           </CardHeader>
           <CardContent className="p-2 flex-1 min-h-0">
-            <div className="space-y-2 h-full flex flex-col">
+            <div className="space-y-3 h-full flex flex-col">
               {/* Chart Container */}
-              <div className="flex-1 relative">
+              <div className="h-56 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={categoryData}
+                      data={chartData.categoryData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={35}
-                      outerRadius={70}
+                      innerRadius={40}
+                      outerRadius={80}
                       dataKey="value"
                       startAngle={90}
                       endAngle={450}
                     >
-                      {categoryData.map((entry, index) => (
+                      {chartData.categoryData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.fill} />
                       ))}
                     </Pie>
@@ -264,10 +251,10 @@ export default function DashboardPage() {
               </div>
               
               {/* Legend */}
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                {categoryData.map((category, index) => (
+              <div className="grid grid-cols-2 gap-1 text-xs">
+                {chartData.categoryData.map((category, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: category.fill }}></div>
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: category.fill }}></div>
                     <span className="truncate">{category.name}</span>
                   </div>
                 ))}
