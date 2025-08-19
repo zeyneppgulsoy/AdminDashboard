@@ -218,5 +218,27 @@ export const api = {
     const response = await fetch(`${BASE_URL}/products/search?q=${query}`)
     const data: ProductsResponse = await response.json()
     return data.products
+  },
+
+  // Dashboard specific functions
+  getRecentOrders: async (limit: number = 5): Promise<Cart[]> => {
+    const response = await fetch(`${BASE_URL}/carts?limit=${limit}`)
+    const data: CartsResponse = await response.json()
+    return data.carts
+  },
+
+  getDashboardStats: async () => {
+    const [users, products, carts] = await Promise.all([
+      fetch(`${BASE_URL}/users?limit=0`).then(r => r.json()),
+      fetch(`${BASE_URL}/products?limit=0`).then(r => r.json()),
+      fetch(`${BASE_URL}/carts?limit=0`).then(r => r.json())
+    ])
+    
+    return {
+      totalUsers: users.total,
+      totalProducts: products.total,
+      totalOrders: carts.total,
+      recentCarts: carts.carts.slice(0, 5)
+    }
   }
 }

@@ -110,3 +110,25 @@ html, body {
 }
 
 /* Vite default styles removed - using Tailwind CSS variables instead */
+
+/* Chart animations */
+.recharts-bar-rectangle {
+  transition: all 0.3s ease-in-out;
+}
+
+.recharts-bar-rectangle:hover {
+  filter: brightness(1.1);
+  transform: scaleY(1.02);
+  transform-origin: bottom;
+}
+
+/* Dark mode chart improvements */
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: #374151;
+  opacity: 0.3;
+}
+
+.dark .recharts-text {
+  fill: #9ca3af !important;
+}

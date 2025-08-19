@@ -1,8 +1,35 @@
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Store, Users, ShoppingCart, DollarSign, TrendingUp, PieChart as PieChartIcon } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { api, type Cart } from '@/services/api'
 
 export default function DashboardPage() {
+  // State for API data
+  const [dashboardStats, setDashboardStats] = useState({
+    totalUsers: 0,
+    totalProducts: 0,
+    totalOrders: 0,
+    recentCarts: [] as Cart[]
+  })
+  const [loading, setLoading] = useState(true)
+
+  // Fetch data on component mount
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const stats = await api.getDashboardStats()
+        setDashboardStats(stats)
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDashboardData()
+  }, [])
+
   // E-commerce specific data - Revenue & Sales tracking
   const salesData = [
     { name: 'Sep', totalRevenue: 25400, totalSales: 18200 },
@@ -30,65 +57,71 @@ export default function DashboardPage() {
     { name: 'Groceries', value: 15, sales: 15200, fill: '#10b981' },
   ]
 
+
+
+
+
+
+
   return (
-    <div className="h-[calc(100vh-64px)] w-full p-2 box-border overflow-hidden flex flex-col">
+    <div className="h-[calc(100vh-80px)] w-full p-3 box-border overflow-hidden flex flex-col">
       {/* Simple Test Cards */}
       <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900">
-                <Store className="h-4 w-4 text-blue-600" />
+          <CardContent className="p-5">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
+                <Store className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total Stores</p>
-                <p className="text-lg font-bold">15</p>
-                <p className="text-xs text-green-600">↗ +12%</p>
+                <p className="text-sm text-muted-foreground">Total Products</p>
+                <p className="text-2xl font-bold">{loading ? '...' : dashboardStats.totalProducts}</p>
+                <p className="text-sm text-green-600">↗ +12%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-green-100 dark:bg-green-900">
-                <Users className="h-4 w-4 text-green-600" />
+          <CardContent className="p-5">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
+                <Users className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total Users</p>
-                <p className="text-lg font-bold">1,234</p>
-                <p className="text-xs text-green-600">↗ +5%</p>
+                <p className="text-sm text-muted-foreground">Total Users</p>
+                <p className="text-2xl font-bold">{loading ? '...' : dashboardStats.totalUsers}</p>
+                <p className="text-sm text-green-600">↗ +5%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900">
-                <ShoppingCart className="h-4 w-4 text-orange-600" />
+          <CardContent className="p-5">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-full bg-orange-100 dark:bg-orange-900">
+                <ShoppingCart className="h-6 w-6 text-orange-600" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total Orders</p>
-                <p className="text-lg font-bold">8,567</p>
-                <p className="text-xs text-green-600">↗ +8%</p>
+                <p className="text-sm text-muted-foreground">Total Orders</p>
+                <p className="text-2xl font-bold">{loading ? '...' : dashboardStats.totalOrders}</p>
+                <p className="text-sm text-green-600">↗ +8%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-purple-100 dark:bg-purple-900">
-                <DollarSign className="h-4 w-4 text-purple-600" />
+          <CardContent className="p-5">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
+                <DollarSign className="h-6 w-6 text-purple-600" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total Revenue</p>
-                <p className="text-lg font-bold">$125,480</p>
-                <p className="text-xs text-green-600">↗ +15%</p>
+                <p className="text-sm text-muted-foreground">Total Revenue</p>
+                <p className="text-2xl font-bold">$125,480</p>
+                <p className="text-sm text-green-600">↗ +15%</p>
               </div>
             </div>
           </CardContent>
@@ -96,9 +129,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1">
         {/* Monthly Performance */}
-        <Card className="flex flex-col h-80">
+        <Card className="flex flex-col min-h-0">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
               <TrendingUp className="h-4 w-4 text-blue-600" />
@@ -129,7 +162,7 @@ export default function DashboardPage() {
                       <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="1 1" stroke="#f1f5f9" vertical={false} />
+                  <CartesianGrid strokeDasharray="1 1" stroke="#e2e8f0" className="dark:stroke-slate-700" vertical={false} />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false}
@@ -184,7 +217,7 @@ export default function DashboardPage() {
 
 
         {/* Sales by Category - Doughnut Chart */}
-        <Card className="flex flex-col h-80">
+        <Card className="flex flex-col min-h-0">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
               <PieChartIcon className="h-4 w-4 text-purple-600" />
@@ -243,6 +276,8 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+
     </div>
   )
 }
