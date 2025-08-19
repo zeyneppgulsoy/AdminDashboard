@@ -16,11 +16,11 @@ html {
 
 /* Prevent auto-scroll restoration */
 html, body {
-  overflow-x: hidden;
-  scroll-restoration: manual;
-  margin: 0;
+ margin: 0;
   padding: 0;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Root container - remove any default spacing */

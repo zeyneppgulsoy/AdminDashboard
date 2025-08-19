@@ -31,67 +31,64 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="p-6">
-      {/* Header */}
-     
-
+    <div className="h-[calc(100vh-64px)] w-full p-2 box-border overflow-hidden flex flex-col">
       {/* Simple Test Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
-                <Store className="h-6 w-6 text-blue-600" />
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900">
+                <Store className="h-4 w-4 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Stores</p>
-                <p className="text-2xl font-bold">15</p>
-                <p className="text-xs text-green-600">↗ +12% from last month</p>
+                <p className="text-xs text-muted-foreground">Total Stores</p>
+                <p className="text-lg font-bold">15</p>
+                <p className="text-xs text-green-600">↗ +12%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
-                <Users className="h-6 w-6 text-green-600" />
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-full bg-green-100 dark:bg-green-900">
+                <Users className="h-4 w-4 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Users</p>
-                <p className="text-2xl font-bold">1,234</p>
-                <p className="text-xs text-green-600">↗ +5% from last month</p>
+                <p className="text-xs text-muted-foreground">Total Users</p>
+                <p className="text-lg font-bold">1,234</p>
+                <p className="text-xs text-green-600">↗ +5%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-full bg-orange-100 dark:bg-orange-900">
-                <ShoppingCart className="h-6 w-6 text-orange-600" />
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900">
+                <ShoppingCart className="h-4 w-4 text-orange-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Orders</p>
-                <p className="text-2xl font-bold">8,567</p>
-                <p className="text-xs text-green-600">↗ +8% from last month</p>
+                <p className="text-xs text-muted-foreground">Total Orders</p>
+                <p className="text-lg font-bold">8,567</p>
+                <p className="text-xs text-green-600">↗ +8%</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
-                <DollarSign className="h-6 w-6 text-purple-600" />
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-full bg-purple-100 dark:bg-purple-900">
+                <DollarSign className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Revenue</p>
-                <p className="text-2xl font-bold">$125,480</p>
-                <p className="text-xs text-green-600">↗ +15% from last month</p>
+                <p className="text-xs text-muted-foreground">Total Revenue</p>
+                <p className="text-lg font-bold">$125,480</p>
+                <p className="text-xs text-green-600">↗ +15%</p>
               </div>
             </div>
           </CardContent>
@@ -99,27 +96,27 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
         {/* Monthly Performance */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-blue-600" />
+        <Card className="flex flex-col h-80">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <TrendingUp className="h-4 w-4 text-blue-600" />
               Total Revenue
             </CardTitle>
-            <div className="flex items-center gap-6 mt-4">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                <span className="text-sm text-muted-foreground">Total Revenue</span>
+            <div className="flex items-center gap-4 mt-2">
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <span className="text-xs text-muted-foreground">Revenue</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                <span className="text-sm text-muted-foreground">Total Sales</span>
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <span className="text-xs text-muted-foreground">Sales</span>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="h-80">
+          <CardContent className="p-2 flex-1 min-h-0">
+            <div className="h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>
@@ -187,26 +184,26 @@ export default function DashboardPage() {
 
 
         {/* Sales by Category - Doughnut Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PieChartIcon className="h-5 w-5 text-purple-600" />
+        <Card className="flex flex-col h-80">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <PieChartIcon className="h-4 w-4 text-purple-600" />
               Sales by Category
             </CardTitle>
-            <p className="text-sm text-muted-foreground">Product distribution</p>
+            <p className="text-xs text-muted-foreground">Product distribution</p>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="p-2 flex-1 min-h-0">
+            <div className="space-y-2 h-full flex flex-col">
               {/* Chart Container */}
-              <div className="h-64 relative">
+              <div className="flex-1 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={categoryData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={50}
-                      outerRadius={85}
+                      innerRadius={35}
+                      outerRadius={70}
                       dataKey="value"
                       startAngle={90}
                       endAngle={450}
@@ -227,8 +224,8 @@ export default function DashboardPage() {
                 {/* Center text */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
-                    <div className="text-xl font-bold">$86.8k</div>
-                    <div className="text-xs text-muted-foreground">Total Sales</div>
+                    <div className="text-lg font-bold">$86.8k</div>
+                    <div className="text-sm text-muted-foreground">Total</div>
                   </div>
                 </div>
               </div>

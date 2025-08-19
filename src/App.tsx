@@ -167,7 +167,7 @@ function App() {
         </div>
 
         {/* Page content */}
-        <main className="px-4 pt-4 pb-4">
+        <main>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<DashboardPage />} />
