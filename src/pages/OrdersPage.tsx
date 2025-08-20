@@ -214,8 +214,8 @@ export default function OrdersPage() {
 
       {/* Orders List */}
       {loading ? (
-        <div className="space-y-4">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start">
@@ -236,7 +236,7 @@ export default function OrdersPage() {
           <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {filteredOrders.map((order) => {
             const StatusIcon = order.statusInfo.icon
             return (
@@ -286,11 +286,7 @@ export default function OrdersPage() {
                         <Package className="h-4 w-4 text-blue-600" />
                         Order Items ({order.products.length})
                       </h4>
-                      {order.products.length > 3 && (
-                        <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                          Showing 3 of {order.products.length}
-                        </span>
-                      )}
+                      
                     </div>
                     
                     <div className="space-y-2">
@@ -312,13 +308,7 @@ export default function OrdersPage() {
                         </div>
                       ))}
                       
-                      {order.products.length > 3 && (
-                        <div className="flex items-center justify-center p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-dashed border-blue-200 dark:border-blue-800">
-                          <span className="text-blue-600 dark:text-blue-400 font-medium text-xs">
-                            +{order.products.length - 3} more items
-                          </span>
-                        </div>
-                      )}
+                      
                     </div>
                   </div>
 

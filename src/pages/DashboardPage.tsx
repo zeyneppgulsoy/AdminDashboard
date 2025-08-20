@@ -51,11 +51,11 @@ export default function DashboardPage() {
 
 
   return (
-    <div className="h-screen w-full p-2 box-border overflow-hidden flex flex-col">
+    <div className="min-h-screen w-full p-1 sm:p-2 pb-8 sm:pb-4 box-border flex flex-col dashboard-mobile">
       {/* Simple Test Cards */}
-      <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
+      <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
         <Card>
-          <CardContent className="p-5">
+          <CardContent className="p-3 sm:p-5">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
                 <Store className="h-6 w-6 text-blue-600" />
@@ -70,7 +70,7 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-5">
+          <CardContent className="p-3 sm:p-5">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
                 <Users className="h-6 w-6 text-green-600" />
@@ -85,7 +85,7 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-5">
+          <CardContent className="p-3 sm:p-5">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-full bg-orange-100 dark:bg-orange-900">
                 <ShoppingCart className="h-6 w-6 text-orange-600" />
@@ -100,7 +100,7 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-5">
+          <CardContent className="p-3 sm:p-5">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
                 <DollarSign className="h-6 w-6 text-purple-600" />
@@ -116,7 +116,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 h-[420px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 h-[350px] sm:h-[420px] mb-8 sm:mb-0 pb-8 sm:pb-0">
         {/* Monthly Performance */}
         <Card className="flex flex-col h-full">
           <CardHeader className="pb-2">
@@ -135,8 +135,8 @@ export default function DashboardPage() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-2 flex-1 min-h-0">
-            <div className="h-full">
+          <CardContent className="p-2 flex-1">
+            <div className="h-full min-h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData.salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>
@@ -205,25 +205,25 @@ export default function DashboardPage() {
 
         {/* Sales by Category - Doughnut Chart */}
         <Card className="flex flex-col h-full">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="flex items-center gap-2 text-base">
               <PieChartIcon className="h-4 w-4 text-purple-600" />
               Sales by Category
             </CardTitle>
             <p className="text-xs text-muted-foreground">Product distribution</p>
           </CardHeader>
-          <CardContent className="p-2 flex-1 min-h-0">
+          <CardContent className="p-2 pb-4 flex-1 min-h-0">
             <div className="space-y-3 h-full flex flex-col">
               {/* Chart Container */}
-              <div className="h-56 relative">
+              <div className="h-40 sm:h-56 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={chartData.categoryData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
+                      innerRadius={window.innerWidth < 640 ? 25 : 40}
+                      outerRadius={window.innerWidth < 640 ? 55 : 80}
                       dataKey="value"
                       startAngle={90}
                       endAngle={450}
@@ -244,14 +244,14 @@ export default function DashboardPage() {
                 {/* Center text */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
-                    <div className="text-lg font-bold">$86.8k</div>
-                    <div className="text-sm text-muted-foreground">Total</div>
+                    <div className="text-sm sm:text-lg font-bold">$86.8k</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Total</div>
                   </div>
                 </div>
               </div>
               
               {/* Legend */}
-              <div className="grid grid-cols-2 gap-1 text-xs">
+              <div className="grid grid-cols-2 gap-1 text-xs px-2 pb-2">
                 {chartData.categoryData.map((category, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: category.fill }}></div>

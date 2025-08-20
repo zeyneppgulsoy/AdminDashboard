@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Sun, Moon, Home, Store, Users, Package, ShoppingCart, Menu, X } from 'lucide-react'
+import { Sun, Moon, Home, Store, Users, Package, ShoppingCart, Menu, X, BarChart3 } from 'lucide-react'
 import { useTheme } from '@/contexts/theme-provider'
 import ScrollToTop from '@/components/ScrollToTop'
 
 // Import pages
 import DashboardPage from '@/pages/DashboardPage'
+import AnalyticsPage from '@/pages/AnalyticsPage'
 import StoresPage from '@/pages/StoresPage'
 import UsersPage from '@/pages/UsersPage'
 import ProductsPage from '@/pages/ProductsPage'
@@ -20,6 +21,7 @@ function App() {
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
+    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
     { name: 'Stores', href: '/stores', icon: Store },
     { name: 'Users', href: '/users', icon: Users },
     { name: 'Products', href: '/products', icon: Package },
@@ -27,7 +29,7 @@ function App() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900/95 transition-colors duration-200">
+    <div className={`${location.pathname === '/' ? 'min-h-screen' : 'min-h-screen'} bg-gray-50 dark:bg-slate-900/95 transition-colors duration-200`}>
       {/* Desktop Sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:bg-white lg:dark:bg-slate-800/60 lg:backdrop-blur-sm lg:border-r lg:border-gray-200 lg:dark:border-slate-600/40">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 py-4">
@@ -167,10 +169,11 @@ function App() {
         </div>
 
         {/* Page content */}
-        <main>
+        <main className={location.pathname === '/' ? 'min-h-screen' : ''}>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<DashboardPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/stores" element={<StoresPage />} />
             <Route path="/users" element={<UsersPage />} />
             <Route path="/products" element={<ProductsPage />} />

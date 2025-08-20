@@ -186,7 +186,7 @@ export const api = {
   },
 
   // Carts (orders)
-  getCarts: async (limit: number = 20): Promise<Cart[]> => {
+  getCarts: async (limit: number = 0): Promise<Cart[]> => {
     const response = await fetch(`${BASE_URL}/carts?limit=${limit}`)
     const data: CartsResponse = await response.json()
     return data.carts
