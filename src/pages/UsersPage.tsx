@@ -8,12 +8,6 @@ export default function UsersPage() {
   const { users, usersLoading, fetchUsers, deleteUser } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Remove auto-fetch to prevent automatic loading
-  // useEffect(() => {
-  //   fetchUsers()
-  // }, [fetchUsers])
-
-
 
   // Filter users based on search query
   const filteredUsers = users.filter(user =>

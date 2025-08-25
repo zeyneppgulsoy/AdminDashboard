@@ -9,11 +9,6 @@ export default function StoresPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedStore, setExpandedStore] = useState<number | null>(null)
 
-  // Remove auto-fetch to prevent automatic loading
-  // useEffect(() => {
-  //   fetchStores()
-  // }, [fetchStores])
-
 
 
   // Handle delete store
