@@ -1,4 +1,3 @@
-// DummyJSON API Service - Much richer data for e-commerce admin
 const BASE_URL = 'https://dummyjson.com'
 
 export interface User {
