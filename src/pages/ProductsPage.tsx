@@ -1,19 +1,18 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Package, Search } from 'lucide-react'
+import { Package, Search, Filter } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
 export default function ProductsPage() {
   const { products, productsLoading, fetchProducts } = useStore()
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Remove auto-fetch to prevent automatic loading
-
   // Filter products
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
 
   if (products.length === 0 && !productsLoading) {
     return (
@@ -68,18 +67,24 @@ export default function ProductsPage() {
         )}
       </div>
 
-      {/* Search */}
+      {/* Search and Filter */}
       <Card className="mb-6">
         <CardContent className="p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-2 w-full border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="relative flex-grow w-full">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-4 py-2 w-full border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <Button variant="outline" className="gap-2 w-full sm:w-auto">
+              <Filter className="h-4 w-4" />
+              Filter
+            </Button>
           </div>
         </CardContent>
       </Card>
