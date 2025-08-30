@@ -1,5 +1,7 @@
+// Base URL for the dummyjson API
 const BASE_URL = 'https://dummyjson.com'
 
+// Data structure for a single user
 export interface User {
   id: number
   firstName: string
@@ -71,6 +73,7 @@ export interface User {
   role: string
 }
 
+// Data structure for a single product
 export interface Product {
   id: number
   title: string
@@ -111,6 +114,7 @@ export interface Product {
   thumbnail: string
 }
 
+// Data structure for a shopping cart, representing an order
 export interface Cart {
   id: number
   products: Array<{
@@ -130,7 +134,7 @@ export interface Cart {
   totalQuantity: number
 }
 
-// DummyJSON API Response interfaces
+// Type definition for the API response when fetching users
 interface UsersResponse {
   users: User[]
   total: number
@@ -138,6 +142,7 @@ interface UsersResponse {
   limit: number
 }
 
+// Type definition for the API response when fetching products
 interface ProductsResponse {
   products: Product[]
   total: number
@@ -145,6 +150,7 @@ interface ProductsResponse {
   limit: number
 }
 
+// Type definition for the API response when fetching carts
 interface CartsResponse {
   carts: Cart[]
   total: number
@@ -152,46 +158,48 @@ interface CartsResponse {
   limit: number
 }
 
-// API Functions with DummyJSON endpoints
+// Service object containing all API call functions
 export const api = {
-  // Users (we'll use as store owners/customers)
+  // Fetches a list of users
   getUsers: async (limit: number = 30): Promise<User[]> => {
     const response = await fetch(`${BASE_URL}/users?limit=${limit}`)
     const data: UsersResponse = await response.json()
     return data.users
   },
 
+  // Fetches a single user by their ID
   getUser: async (id: number): Promise<User> => {
     const response = await fetch(`${BASE_URL}/users/${id}`)
     return response.json()
   },
 
-  // Products
+  // Fetches a list of products
   getProducts: async (limit: number = 30): Promise<Product[]> => {
     const response = await fetch(`${BASE_URL}/products?limit=${limit}`)
     const data: ProductsResponse = await response.json()
     return data.products
   },
 
+  // Fetches a single product by its ID
   getProduct: async (id: number): Promise<Product> => {
     const response = await fetch(`${BASE_URL}/products/${id}`)
     return response.json()
   },
 
-  // Categories (DummyJSON provides different endpoint)
+  // Fetches a list of all product categories
   getCategories: async (): Promise<string[]> => {
     const response = await fetch(`${BASE_URL}/products/categories`)
     return response.json()
   },
 
-  // Carts (orders)
+  // Fetches a list of all carts
   getCarts: async (limit: number = 0): Promise<Cart[]> => {
     const response = await fetch(`${BASE_URL}/carts?limit=${limit}`)
     const data: CartsResponse = await response.json()
     return data.carts
   },
 
-  // Delete operations (DummyJSON supports fake CRUD)
+  // Fakes the deletion of a user and returns the 'deleted' object
   deleteUser: async (id: number): Promise<User> => {
     const response = await fetch(`${BASE_URL}/users/${id}`, {
       method: 'DELETE'
@@ -199,6 +207,7 @@ export const api = {
     return response.json()
   },
 
+  // Fakes the deletion of a product and returns the 'deleted' object
   deleteProduct: async (id: number): Promise<Product> => {
     const response = await fetch(`${BASE_URL}/products/${id}`, {
       method: 'DELETE'
@@ -206,26 +215,28 @@ export const api = {
     return response.json()
   },
 
-  // Search functions (DummyJSON has great search capabilities)
+  // Searches for users matching a query string
   searchUsers: async (query: string): Promise<User[]> => {
     const response = await fetch(`${BASE_URL}/users/search?q=${query}`)
     const data: UsersResponse = await response.json()
     return data.users
   },
 
+  // Searches for products matching a query string
   searchProducts: async (query: string): Promise<Product[]> => {
     const response = await fetch(`${BASE_URL}/products/search?q=${query}`)
     const data: ProductsResponse = await response.json()
     return data.products
   },
 
-  // Dashboard specific functions
+  // Fetches a short list of recent orders for the dashboard
   getRecentOrders: async (limit: number = 5): Promise<Cart[]> => {
     const response = await fetch(`${BASE_URL}/carts?limit=${limit}`)
     const data: CartsResponse = await response.json()
     return data.carts
   },
 
+  // Fetches and aggregates key statistics for the main dashboard view
   getDashboardStats: async () => {
     const [users, products, carts] = await Promise.all([
       fetch(`${BASE_URL}/users?limit=0`).then(r => r.json()),
@@ -245,6 +256,7 @@ export const api = {
     }
   },
 
+  // Fetches and processes data specifically for dashboard charts
   getChartData: async () => {
     const [products] = await Promise.all([
       fetch(`${BASE_URL}/products?limit=100`).then(r => r.json())

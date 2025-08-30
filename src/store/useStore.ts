@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import type { User, Product } from '@/services/api'
 import { api } from '@/services/api'
 
-// Cart interface'ini burada tanımlayalım (geçici çözüm)
+
 interface Cart {
   id: number
   products: Array<{
@@ -22,21 +22,22 @@ interface Cart {
   totalQuantity: number
 }
 
+// Defines the shape of the Zustand store, including state and actions
 interface StoreState {
-  // Data
+  // State properties
   users: User[]
   stores: User[]  // Separate array for stores
   products: Product[]
   carts: Cart[]
   categories: string[]
   
-  // Loading states
+  // Loading indicators for UI feedback
   isLoading: boolean
   usersLoading: boolean
   storesLoading: boolean
   productsLoading: boolean
   
-  // Actions
+  // Actions to interact with the API and update state
   fetchUsers: () => Promise<void>
   fetchStores: () => Promise<void>
   fetchProducts: () => Promise<void>
@@ -46,7 +47,7 @@ interface StoreState {
   deleteStore: (id: number) => Promise<void>
   deleteProduct: (id: number) => Promise<void>
   
-  // Analytics (derived data)
+  // Selector for deriving analytics data from the state
   getAnalytics: () => {
     totalUsers: number
     totalProducts: number
@@ -57,7 +58,7 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>((set, get) => ({
-  // Initial state
+  // Initial state values
   users: [],
   stores: [],
   products: [],
@@ -69,7 +70,7 @@ export const useStore = create<StoreState>((set, get) => ({
   storesLoading: false,
   productsLoading: false,
   
-  // Fetch Users
+  // Fetches all users from the API
   fetchUsers: async () => {
     set({ usersLoading: true })
     try {
@@ -81,7 +82,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
 
-  // Fetch Stores (separate data array)
+  // Fetches users to be treated as stores
   fetchStores: async () => {
     set({ storesLoading: true })
     try {
@@ -93,7 +94,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Fetch Products
+  // Fetches all products from the API
   fetchProducts: async () => {
     set({ productsLoading: true })
     try {
@@ -105,7 +106,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Fetch Carts (Orders)
+  // Fetches all carts, representing orders
   fetchCarts: async () => {
     try {
       const carts = await api.getCarts()
@@ -115,7 +116,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Fetch Categories
+  // Fetches all product categories
   fetchCategories: async () => {
     try {
       const categories = await api.getCategories()
@@ -125,7 +126,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Delete User (only from users array)
+  // Deletes a user and optimistically updates the state
   deleteUser: async (id: number) => {
     try {
       await api.deleteUser(id)
@@ -136,7 +137,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
 
-  // Delete Store (only from stores array)
+  // Deletes a store and optimistically updates the state
   deleteStore: async (id: number) => {
     try {
       await api.deleteUser(id)
@@ -147,7 +148,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
   },
   
-  // Delete Product
+  // Deletes a product and optimistically updates the state
   deleteProduct: async (id: number) => {
     try {
       await api.deleteProduct(id)

@@ -4,16 +4,20 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Package, Search, Filter } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 
+// Renders the product management page, including search, filtering, and a product grid.
 export default function ProductsPage() {
+  // State from the Zustand store
   const { products, productsLoading, fetchProducts } = useStore()
+  // Local state for the search input
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Filter products
+  // Memoize filtered products to avoid recalculation on every render
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
 
+  // Render a prompt to load products if the list is empty
   if (products.length === 0 && !productsLoading) {
     return (
       <div className="p-6">
@@ -48,7 +52,7 @@ export default function ProductsPage() {
 
   return (
     <div className="p-3 sm:p-6">
-      {/* Header */}
+      {/* Page Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">Products Management</h1>
@@ -67,7 +71,7 @@ export default function ProductsPage() {
         )}
       </div>
 
-      {/* Search and Filter */}
+      {/* Search Input and Filter Button */}
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -89,8 +93,9 @@ export default function ProductsPage() {
         </CardContent>
       </Card>
 
-      {/* Products Grid */}
+      {/* Conditional rendering for the product grid */}
       {productsLoading ? (
+        // Loading skeleton UI
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -104,12 +109,15 @@ export default function ProductsPage() {
           ))}
         </div>
       ) : filteredProducts.length === 0 ? (
+        // Empty state when no products match the filter
+
         <div className="text-center py-12">
           <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">No products found</h3>
           <p className="text-muted-foreground">Try adjusting your search criteria.</p>
         </div>
       ) : (
+        // Render the grid of filtered products
         <div className="grid grid-cols-1 gap-4 px-2 sm:px-0 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
           {filteredProducts.map((product) => (
             <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden max-w-full">
