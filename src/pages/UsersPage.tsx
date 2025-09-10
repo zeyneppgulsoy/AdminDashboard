@@ -105,19 +105,19 @@ export default function UsersPage() {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">User Management</h1>
-          <p className="text-muted-foreground">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+        <div className="w-full sm:w-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">User Management</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             View and manage all customers • {filteredUsers.length} users found
           </p>
         </div>
-                  <div className="flex gap-2">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              New User
-            </Button>
-          </div>
+        <div className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">
+            <Plus className="h-4 w-4 mr-2" />
+            New User
+          </Button>
+        </div>
       </div>
 
       {/* Search & Filter */}
