@@ -53,10 +53,10 @@ export default function ProductsPage() {
   return (
     <div className="p-3 sm:p-6">
       {/* Page Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Products Management</h1>
-          <p className="text-muted-foreground">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+        <div className="flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Products Management</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             {products.length > 0 
               ? `Manage your product inventory (${filteredProducts.length} products)`
               : 'Click "Load Products" to fetch product data'
@@ -64,7 +64,7 @@ export default function ProductsPage() {
           </p>
         </div>
         {products.length === 0 && !productsLoading && (
-          <Button onClick={fetchProducts} className="gap-2">
+          <Button onClick={fetchProducts} className="gap-2 w-full sm:w-auto">
             <Package className="h-4 w-4" />
             Load Products
           </Button>
@@ -121,37 +121,41 @@ export default function ProductsPage() {
         <div className="grid grid-cols-1 gap-4 px-2 sm:px-0 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
           {filteredProducts.map((product) => (
             <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden max-w-full">
-              <div className="relative w-full">
+              <div className="relative w-full aspect-square sm:aspect-[4/3]">
                 <img
                   src={product.thumbnail}
                   alt={product.title}
-                  className="w-full h-32 sm:h-40 md:h-44 lg:h-48 object-cover object-center"
+                  className="w-full h-full object-cover object-center rounded-t-lg"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzlmYTJhNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
+                  }}
                 />
                 <div className="absolute top-2 right-2">
-                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full max-w-20 sm:max-w-none truncate">
+                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full max-w-20 sm:max-w-none truncate shadow-sm">
                     {product.category}
                   </span>
                 </div>
               </div>
               
-              <CardContent className="p-2 sm:p-3 md:p-4">
-                <h3 className="font-semibold mb-1 sm:mb-2 text-xs sm:text-sm md:text-base line-clamp-2">{product.title}</h3>
-                <p className="text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2">
+              <CardContent className="p-3 sm:p-4">
+                <h3 className="font-semibold mb-2 text-sm sm:text-base line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">{product.title}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
                   {product.description}
                 </p>
                 
-                <div className="flex items-center justify-between mb-2 sm:mb-3">
-                  <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold text-green-600">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-lg sm:text-xl font-bold text-green-600">
                     ${product.price}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs sm:text-sm text-muted-foreground">
                     Stock: {product.stock}
                   </span>
                 </div>
                 
                 <div className="text-center">
-                  <Button size="sm" variant="outline" className="w-full text-xs py-1 sm:py-2">
+                  <Button size="sm" variant="outline" className="w-full text-xs sm:text-sm py-2">
                     View Details
                   </Button>
                 </div>
