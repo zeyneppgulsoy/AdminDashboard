@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Package, Search, Filter } from 'lucide-react'
 import { useStore } from '@/store/useStore'
+import type { Product } from '@/services/api'
 
 // Renders the product management page, including search, filtering, and a product grid.
 export default function ProductsPage() {
@@ -119,13 +120,13 @@ export default function ProductsPage() {
       ) : (
         // Render the grid of filtered products
         <div className="grid grid-cols-1 gap-4 px-2 sm:px-0 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product: Product) => (
             <Card key={product.id} className="hover:shadow-lg transition-shadow overflow-hidden max-w-full">
-              <div className="relative w-full aspect-square sm:aspect-[4/3]">
+              <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60 overflow-hidden">
                 <img
                   src={product.thumbnail}
                   alt={product.title}
-                  className="w-full h-full object-cover object-center rounded-t-lg"
+                  className="w-full h-full object-contain hover:object-cover transition-all duration-300 rounded-t-lg"
                   loading="lazy"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
