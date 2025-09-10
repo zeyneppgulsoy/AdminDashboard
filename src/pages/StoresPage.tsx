@@ -114,15 +114,9 @@ export default function StoresPage() {
             <h1 className="text-3xl font-bold mb-2">Store Management</h1>
             <p className="text-muted-foreground">Click "Load Stores" to fetch store data</p>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={fetchStores} variant="default">
-              Load Stores
-            </Button>
-            <Button disabled>
-              <Plus className="h-4 w-4 mr-2" />
-              New Store
-            </Button>
-          </div>
+          <Button onClick={fetchStores} variant="default">
+            Load Stores
+          </Button>
         </div>
 
         {/* Empty state */}

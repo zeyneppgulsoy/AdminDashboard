@@ -27,15 +27,9 @@ export default function UsersPage() {
             <h1 className="text-3xl font-bold mb-2">User Management</h1>
             <p className="text-muted-foreground">Click "Load Users" to fetch user data</p>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={fetchUsers} variant="default">
-              Load Users
-            </Button>
-            <Button disabled>
-              <Plus className="h-4 w-4 mr-2" />
-              New User
-            </Button>
-          </div>
+          <Button onClick={fetchUsers} variant="default">
+            Load Users
+          </Button>
         </div>
 
         {/* Empty state */}
