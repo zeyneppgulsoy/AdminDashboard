@@ -144,19 +144,11 @@ export default function StoresPage() {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
-        <div className="w-full sm:w-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Store Management</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            View and manage all stores • {filteredStores.length} stores found
-          </p>
-        </div>
-        <div className="w-full sm:w-auto">
-          <Button className="w-full sm:w-auto">
-            <Plus className="h-4 w-4 mr-2" />
-            New Store
-          </Button>
-        </div>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Store Management</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
+          View and manage all stores • {filteredStores.length} stores found
+        </p>
       </div>
 
       {/* Stats Cards */}
