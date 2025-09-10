@@ -111,8 +111,7 @@ export default function StoresPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Store Management</h1>
-            <p className="text-muted-foreground">Click "Load Stores" to fetch store data</p>
+            <h1 className="text-3xl font-bold">Store Management</h1>
           </div>
           <Button onClick={fetchStores} variant="default">
             Load Stores

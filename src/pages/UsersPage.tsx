@@ -24,8 +24,7 @@ export default function UsersPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">User Management</h1>
-            <p className="text-muted-foreground">Click "Load Users" to fetch user data</p>
+            <h1 className="text-3xl font-bold">User Management</h1>
           </div>
           <Button onClick={fetchUsers} variant="default">
             Load Users

@@ -25,8 +25,7 @@ export default function ProductsPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Products Management</h1>
-            <p className="text-muted-foreground">Click "Load Products" to fetch product data</p>
+            <h1 className="text-3xl font-bold">Products Management</h1>
           </div>
           <Button onClick={fetchProducts} className="gap-2">
             <Package className="h-4 w-4" />
@@ -60,7 +59,7 @@ export default function ProductsPage() {
           <p className="text-sm sm:text-base text-muted-foreground">
             {products.length > 0 
               ? `Manage your product inventory (${filteredProducts.length} products)`
-              : 'Click "Load Products" to fetch product data'
+              : ''
             }
           </p>
         </div>

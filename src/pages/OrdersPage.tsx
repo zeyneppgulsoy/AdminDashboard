@@ -68,8 +68,7 @@ export default function OrdersPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Orders Management</h1>
-            <p className="text-muted-foreground">Click "Load Orders" to fetch order data</p>
+            <h1 className="text-3xl font-bold">Orders Management</h1>
           </div>
           <Button onClick={loadAllData} className="gap-2">
             <ShoppingCart className="h-4 w-4" />
